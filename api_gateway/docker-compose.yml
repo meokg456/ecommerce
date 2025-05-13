@@ -1,0 +1,49 @@
+services:
+  kong-database:
+    image: postgres:17-alpine3.21
+    environment:
+      POSTGRES_USER: kong
+      POSTGRES_PASSWORD: kong
+      POSTGRES_DB: kong
+    ports:
+      - "5532:5432"
+    volumes:
+      - kong_db_data:/var/lib/postgresql/data
+    networks:
+      - kong-net
+
+  kong:
+    image: kong:latest
+    environment:
+      KONG_DATABASE: postgres
+      KONG_PG_HOST: kong-database
+      KONG_PG_USER: kong
+      KONG_PG_PASSWORD: kong
+      KONG_PROXY_ACCESS_LOG: /dev/stdout
+      KONG_ADMIN_ACCESS_LOG: /dev/stdout
+      KONG_PROXY_ERROR_LOG: /dev/stderr
+      KONG_ADMIN_ERROR_LOG: /dev/stderr
+      KONG_ADMIN_LISTEN: 0.0.0.0:8001
+      KONG_ADMIN_GUI_URL: http://localhost:8002
+      KONG_PORTAL: 'off'
+    ports:
+      - "8000:8000" # Proxy port
+      - "8443:8443" # Proxy SSL
+      - "8001:8001" # Admin API
+      - "8002:8002" # Kong Manager
+    depends_on:
+      - kong-database
+    networks:
+      - kong-net
+      - ecommerce-net
+
+networks:
+  kong-net:
+    name: kong-net
+    driver: bridge
+  ecommerce-net:
+    name: ecommerce-net
+    driver: bridge
+
+volumes:
+  kong_db_data:
