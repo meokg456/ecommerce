@@ -9,7 +9,6 @@ type UserQuerySchema struct {
 	Username string
 	Password string
 	FullName string
-	Avatar   string
 }
 
 type BookQuerySchema struct {

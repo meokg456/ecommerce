@@ -38,3 +38,6 @@ gen-proto:
 	protoc -I=./adapter/grpcserver/proto --go_out=adapter \
 	--go-grpc_out=adapter \
 	$(shell find ./adapter/grpcserver/proto -name '*.proto')
+
+docker:
+	docker build -t user-service:latest .

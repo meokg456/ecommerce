@@ -60,14 +60,3 @@ func (userStore *UserStore) CheckIfUserExist(id int) error {
 
 	return result.Error
 }
-
-func (userStore *UserStore) UpdateProfile(user *user.User) error {
-	data := UserQuerySchema{
-		Model:    gorm.Model{ID: uint(user.ID)},
-		FullName: user.FullName,
-		Avatar:   user.Avatar,
-	}
-	result := userStore.db.Table(dbconst.UserTableName).Updates(&data)
-
-	return result.Error
-}

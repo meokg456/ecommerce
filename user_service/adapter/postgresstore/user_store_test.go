@@ -39,22 +39,6 @@ func TestUserStore(t *testing.T) {
 		assert.Equal(t, user.Password, registeredUser.Password)
 
 	})
-
-	t.Run("Test Update profile", func(t *testing.T) {
-		user := user.NewUser("meokg789", "hashed password", "Dung")
-		err := store.Register(&user)
-
-		assert.NoError(t, err)
-
-		user.Avatar = "new_avatar.png"
-		user.FullName = "New Full Name"
-
-		err = store.UpdateProfile(&user)
-		assert.NoError(t, err)
-
-		assert.Equal(t, user.Avatar, "new_avatar.png")
-		assert.Equal(t, user.FullName, "New Full Name")
-	})
 }
 
 func VerifyRegisteredUser(t testing.TB, username string, db *gorm.DB) {

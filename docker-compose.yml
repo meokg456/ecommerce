@@ -1,0 +1,80 @@
+services:
+  kong-database:
+    image: postgres:17-alpine3.21
+    env_file:
+      - ./api_gateway/.env
+    ports:
+      - "5532:5432"
+    volumes:
+      - kong_db_data:/var/lib/postgresql/data
+    networks:
+      - kong-net
+
+  kong-migration:
+    image: kong:latest
+    command: "kong migrations bootstrap"
+    restart: on-failure
+    networks:
+      - kong-net
+    env_file:
+      - ./api_gateway/.env
+    links:
+      - kong-database
+    depends_on:
+      - kong-database
+
+  kong:
+    image: kong:latest
+    restart: always
+    env_file:
+      - ./api_gateway/.env
+    ports:
+      - "8000:8000" # Proxy port
+      - "8443:8443" # Proxy SSL
+      - "8001:8001" # Admin API
+      - "8002:8002" # Kong Manager
+    depends_on:
+      - kong-database
+      - kong-migration
+    networks:
+      - kong-net
+      - ecommerce-net
+
+  user_service:
+    image: user-service:latest
+    ports:
+      - "8081:8081"
+    env_file:
+      - ./user_service/.env
+    environment:
+      - DB_HOST=user-db
+    depends_on:
+      - user-db
+    networks:
+      - user-net
+      - ecommerce-net
+
+  user-db:
+    image: postgres:17-alpine3.21
+    env_file: "./user_service/.env"
+    ports:
+      - "5433:5432"
+    volumes:
+      - user_db_data:/var/lib/postgresql/data
+    networks:
+      - user-net
+
+networks:
+  kong-net:
+    name: kong-net
+    driver: bridge
+  ecommerce-net:
+    name: ecommerce-net
+    driver: bridge
+  user-net:
+    name: user-net
+    driver: bridge
+
+volumes:
+  kong_db_data:
+  user_db_data:

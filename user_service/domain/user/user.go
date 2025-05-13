@@ -5,7 +5,6 @@ type User struct {
 	Username string
 	Password string
 	FullName string
-	Avatar   string
 }
 
 type Storage interface {
@@ -13,7 +12,6 @@ type Storage interface {
 	GetUserByUsername(username string) (*User, error)
 	GetUserById(id int) (*User, error)
 	CheckIfUserExist(id int) error
-	UpdateProfile(user *User) error
 }
 
 func NewUser(username string, password string, fullName string) User {
