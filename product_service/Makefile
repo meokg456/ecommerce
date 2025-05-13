@@ -20,8 +20,8 @@ lint:
 db/migrate:
 	go run ./cmd/migrate
 
-load-data:
-	go run ./cmd/loaddata
+seed-data:
+	go run ./cmd/seeddata
 
 unit-test:
 	@mkdir coverage || true

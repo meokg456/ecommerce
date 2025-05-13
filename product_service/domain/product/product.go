@@ -1,10 +1,11 @@
 package product
 
 type Product struct {
-	Id   int
+	Id   string
 	Name string
 }
 
 type Storage interface {
-	GetProductById(id int) (*Product, error)
+	GetProductById(id string) (*Product, error)
+	AddProducts(products []Product) error
 }

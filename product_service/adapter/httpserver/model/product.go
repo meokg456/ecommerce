@@ -1,5 +1,5 @@
 package model
 
 type GetProductByIdRequest struct {
-	Id int `param:"id" validate:"required"`
+	Id string `param:"id" validate:"required"`
 }

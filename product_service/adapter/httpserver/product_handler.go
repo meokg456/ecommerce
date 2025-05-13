@@ -2,6 +2,7 @@ package httpserver
 
 import (
 	"errors"
+	"fmt"
 	"net/http"
 
 	"github.com/labstack/echo/v4"
@@ -19,14 +20,20 @@ func (s *Server) GetProductById(c echo.Context) error {
 	var request model.GetProductByIdRequest
 
 	if err := c.Bind(&request); err != nil {
-		s.Logger.Errorw(errors.Join(errors.New("register: error when parse request body"), err).Error(), requestInfo)
+		s.Logger.Errorw(errors.Join(errors.New("get product by id: error when parse request body"), err).Error(), requestInfo)
 		return s.handleError(c, http.StatusBadRequest, 0)
 	}
 
 	if err := c.Validate(request); err != nil {
-		s.Logger.Errorw(errors.Join(errors.New("register: invalid request body"), err).Error(), requestInfo)
+		s.Logger.Errorw(errors.Join(errors.New("get product by id: invalid request body"), err).Error(), requestInfo)
 		return s.handleError(c, http.StatusBadRequest, 0)
 	}
 
-	return s.handleSuccess(c, nil, http.StatusOK)
+	product, err := s.ProductStore.GetProductById(request.Id)
+	if err != nil {
+		s.Logger.Errorw(errors.Join(fmt.Errorf("get product by id: error when get product %s", request.Id), err).Error(), requestInfo)
+		return s.handleError(c, http.StatusInternalServerError, 0)
+	}
+
+	return s.handleSuccess(c, product, http.StatusOK)
 }
