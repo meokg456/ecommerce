@@ -28,20 +28,28 @@ func (userStore *UserStore) Register(user *user.User) error {
 	return result.Error
 }
 
-func (userStore *UserStore) GetUserByUsername(username string) (user.User, error) {
+func (userStore *UserStore) GetUserByUsername(username string) (*user.User, error) {
 	var data UserQuerySchema
 	result := userStore.db.Table(dbconst.UserTableName).First(&data, "username = ?", username)
 
+	if result.Error != nil {
+		return nil, result.Error
+	}
+
 	user := user.NewUserWithId(int(data.ID), data.Username, data.Password, data.FullName)
-	return user, result.Error
+	return &user, nil
 }
 
-func (userStore *UserStore) GetUserById(id int) (user.User, error) {
+func (userStore *UserStore) GetUserById(id int) (*user.User, error) {
 	data := UserQuerySchema{}
 	result := userStore.db.Debug().Table(dbconst.UserTableName).First(&data, id)
 
+	if result.Error != nil {
+		return nil, result.Error
+	}
+
 	user := user.NewUserWithId(int(data.ID), data.Username, data.Password, data.FullName)
-	return user, result.Error
+	return &user, nil
 }
 
 func (userStore *UserStore) CheckIfUserExist(id int) error {

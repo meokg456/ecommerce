@@ -10,8 +10,8 @@ type User struct {
 
 type Storage interface {
 	Register(user *User) error
-	GetUserByUsername(username string) (User, error)
-	GetUserById(id int) (User, error)
+	GetUserByUsername(username string) (*User, error)
+	GetUserById(id int) (*User, error)
 	CheckIfUserExist(id int) error
 	UpdateProfile(user *User) error
 }

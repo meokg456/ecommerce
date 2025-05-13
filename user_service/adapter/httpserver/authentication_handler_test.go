@@ -28,14 +28,14 @@ func (userStore *UserStore) Register(user *user.User) error {
 	return args.Error(0)
 }
 
-func (userStore *UserStore) GetUserByUsername(username string) (user.User, error) {
+func (userStore *UserStore) GetUserByUsername(username string) (*user.User, error) {
 	args := userStore.Called(username)
-	return args.Get(0).(user.User), args.Error(1)
+	return args.Get(0).(*user.User), args.Error(1)
 }
 
-func (userStore *UserStore) GetUserById(id int) (user.User, error) {
+func (userStore *UserStore) GetUserById(id int) (*user.User, error) {
 	args := userStore.Called(id)
-	return args.Get(0).(user.User), args.Error(1)
+	return args.Get(0).(*user.User), args.Error(1)
 }
 
 func (userStore *UserStore) CheckIfUserExist(id int) error {
@@ -76,9 +76,14 @@ func TestRegister(t *testing.T) {
 			FullName: registerUser.FullName,
 		}
 
-		server.ServeHTTP(response, request)
+		ctx := server.Router.NewContext(request, response)
+
+		err = server.Register(ctx)
+
+		assert.NoError(t, err)
 		assert.Equal(t, http.StatusOK, response.Code)
 		assert.Equal(t, testutil.BuildSuccessBody(t, expectedData, http.StatusOK), response.Body.String())
+		mockStore.AssertExpectations(t)
 	})
 
 	t.Run("Register fail due to wrong request body format", func(t *testing.T) {
@@ -94,7 +99,11 @@ func TestRegister(t *testing.T) {
 		request := httptest.NewRequest(http.MethodPost, "/api/register", bytes.NewBuffer(data))
 		request.Header.Set("Content-Type", "application/json")
 
-		server.ServeHTTP(response, request)
+		ctx := server.Router.NewContext(request, response)
+
+		err = server.Register(ctx)
+
+		assert.NoError(t, err)
 		assert.Equal(t, http.StatusBadRequest, response.Code)
 		assert.Equal(t, testutil.BuildErrorBody(t, http.StatusBadRequest, 0), response.Body.String())
 	})
@@ -109,9 +118,14 @@ func TestRegister(t *testing.T) {
 		request := httptest.NewRequest(http.MethodPost, "/api/register", bytes.NewBuffer(data))
 		request.Header.Set("Content-Type", "application/json")
 
-		server.ServeHTTP(response, request)
+		ctx := server.Router.NewContext(request, response)
+
+		err = server.Register(ctx)
+
+		assert.NoError(t, err)
 		assert.Equal(t, http.StatusInternalServerError, response.Code)
 		assert.Equal(t, testutil.BuildErrorBody(t, http.StatusInternalServerError, 0), response.Body.String())
+		mockStore.AssertExpectations(t)
 	})
 }
 
@@ -134,7 +148,7 @@ func TestLogin(t *testing.T) {
 	u := user.NewUser("meokg456", string(hashedPassword), "Dung")
 
 	t.Run("Login success", func(t *testing.T) {
-		mockStore.On("GetUserByUsername", loginUser.Username).Return(u, nil).Once()
+		mockStore.On("GetUserByUsername", loginUser.Username).Return(&u, nil).Once()
 
 		data, err := json.Marshal(loginUser)
 		assert.NoError(t, err)
@@ -145,12 +159,17 @@ func TestLogin(t *testing.T) {
 
 		assert.NoError(t, err)
 
-		server.ServeHTTP(response, request)
+		ctx := server.Router.NewContext(request, response)
+
+		err = server.Login(ctx)
+
 		var responseBody map[string]any
 		json.Unmarshal(response.Body.Bytes(), &responseBody)
 
+		assert.NoError(t, err)
 		assert.Equal(t, http.StatusOK, response.Code)
 		assert.Contains(t, responseBody["result"], "token")
+		mockStore.AssertExpectations(t)
 	})
 
 	t.Run("Login fail due to wrong request body format", func(t *testing.T) {
@@ -165,7 +184,11 @@ func TestLogin(t *testing.T) {
 		request := httptest.NewRequest(http.MethodPost, "/api/login", bytes.NewBuffer(data))
 		request.Header.Set("Content-Type", "application/json")
 
-		server.ServeHTTP(response, request)
+		ctx := server.Router.NewContext(request, response)
+
+		err = server.Login(ctx)
+
+		assert.NoError(t, err)
 		assert.Equal(t, http.StatusBadRequest, response.Code)
 		assert.Equal(t, testutil.BuildErrorBody(t, http.StatusBadRequest, 0), response.Body.String())
 	})
@@ -181,15 +204,20 @@ func TestLogin(t *testing.T) {
 		request := httptest.NewRequest(http.MethodPost, "/api/login", bytes.NewBuffer(data))
 		request.Header.Set("Content-Type", "application/json")
 
-		server.ServeHTTP(response, request)
+		ctx := server.Router.NewContext(request, response)
+
+		err = server.Login(ctx)
+
+		assert.NoError(t, err)
 		assert.Equal(t, http.StatusInternalServerError, response.Code)
 		assert.Equal(t, testutil.BuildErrorBody(t, http.StatusInternalServerError, 1), response.Body.String())
+		mockStore.AssertExpectations(t)
 	})
 
 	t.Run("Login fail due to wrong password", func(t *testing.T) {
 		wrongPassUser := u
 		wrongPassUser.Password = "wrong"
-		mockStore.On("GetUserByUsername", loginUser.Username).Return(wrongPassUser, nil).Once()
+		mockStore.On("GetUserByUsername", loginUser.Username).Return(&wrongPassUser, nil).Once()
 
 		data, err := json.Marshal(loginUser)
 		assert.NoError(t, err)
@@ -200,12 +228,17 @@ func TestLogin(t *testing.T) {
 
 		assert.NoError(t, err)
 
-		server.ServeHTTP(response, request)
+		ctx := server.Router.NewContext(request, response)
+
+		err = server.Login(ctx)
+
 		var responseBody map[string]any
 		json.Unmarshal(response.Body.Bytes(), &responseBody)
 
+		assert.NoError(t, err)
 		assert.Equal(t, http.StatusInternalServerError, response.Code)
 		assert.Equal(t, testutil.BuildErrorBody(t, http.StatusInternalServerError, 2), response.Body.String())
+		mockStore.AssertExpectations(t)
 	})
 }
 
