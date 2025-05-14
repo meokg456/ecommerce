@@ -1,4 +1,4 @@
-module proto
+module github.com/meokg456/ecommerce/proto
 
 go 1.24.2
 
