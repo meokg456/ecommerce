@@ -2,6 +2,7 @@ package grpcserver_test
 
 import (
 	"context"
+	"errors"
 	"testing"
 
 	pb "github.com/meokg456/ecommerce/proto/product"
@@ -70,5 +71,25 @@ func TestAddProduct(t *testing.T) {
 		assert.Equal(t, request.Descriptions, response.Descriptions)
 		assert.Equal(t, request.Category, response.Category)
 		assert.Equal(t, request.Images, response.Images)
+	})
+
+	t.Run("Add product fail", func(t *testing.T) {
+		additionInfo, err := structpb.NewStruct(p.AdditionInfo)
+		assert.NoError(t, err)
+
+		request := pb.Product{
+			Title:        p.Title,
+			Descriptions: p.Descriptions,
+			Category:     p.Category,
+			Images:       p.Images,
+			AdditionInfo: additionInfo,
+		}
+
+		mockStore.On("AddProduct", &p).Return(errors.New("failed")).Once()
+
+		response, err := grpcService.AddProduct(context.Background(), &request)
+
+		assert.Error(t, err)
+		assert.Nil(t, response)
 	})
 }
