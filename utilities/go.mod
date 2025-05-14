@@ -1,4 +1,4 @@
-module utilities
+module github.com/meokg456/ecommerce/utilities
 
 go 1.24.2
 
