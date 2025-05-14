@@ -4,13 +4,14 @@ import (
 	"context"
 	"errors"
 
+	"utilities/dynamodbutils"
+
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/feature/dynamodb/attributevalue"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb/types"
 	"github.com/meokg456/productservice/dbconst"
 	"github.com/meokg456/productservice/domain/product"
-	"github.com/meokg456/productservice/pkg/utils"
 )
 
 type ProductStore struct {
@@ -69,7 +70,7 @@ func (p *ProductStore) AddProducts(products []product.Product) error {
 		})
 	}
 
-	batches, err := utils.SplitDynamoBatchRequest(data, dbconst.ProductTableName)
+	batches, err := dynamodbutils.SplitDynamoBatchRequest(data, dbconst.ProductTableName)
 	if err != nil {
 		return err
 	}

@@ -2,6 +2,8 @@ module github.com/meokg456/productservice
 
 go 1.24.2
 
+replace utilities => ../utilities
+
 require (
 	github.com/aws/aws-sdk-go-v2 v1.36.3
 	github.com/aws/aws-sdk-go-v2/config v1.29.14
@@ -101,4 +103,5 @@ require (
 	github.com/stretchr/testify v1.10.0
 	github.com/testcontainers/testcontainers-go v0.37.0
 	go.uber.org/multierr v1.11.0 // indirect
+	utilities v0.0.0-00010101000000-000000000000
 )

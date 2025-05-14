@@ -1,4 +1,4 @@
-module github.com/meokg456/utilities
+module utilities
 
 go 1.24.2
 

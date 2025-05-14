@@ -3,7 +3,8 @@ package dynamodbutils_test
 import (
 	"testing"
 
-	"github.com/meokg456/utilities/dynamodbutils"
+	"utilities/dynamodbutils"
+
 	"github.com/stretchr/testify/assert"
 )
 
