@@ -2,6 +2,8 @@ module github.com/meokg456/productmanagement
 
 go 1.24.2
 
+replace proto => ../proto
+
 require (
 	github.com/joho/godotenv v1.5.1
 	github.com/kelseyhightower/envconfig v1.4.0
@@ -89,6 +91,7 @@ require (
 	google.golang.org/protobuf v1.36.6 // indirect
 	gopkg.in/go-playground/assert.v1 v1.2.1 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
+	proto v0.0.0-00010101000000-000000000000 // indirect
 )
 
 require (

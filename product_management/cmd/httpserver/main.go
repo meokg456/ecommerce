@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/meokg456/productmanagement/adapter/grpcservice"
 	"github.com/meokg456/productmanagement/adapter/httpserver"
 	"github.com/meokg456/productmanagement/adapter/postgresstore"
 	"github.com/meokg456/productmanagement/pkg/config"
@@ -29,12 +30,18 @@ func main() {
 		applog.Fatalf("Cannot connect to db %v", err)
 	}
 
+	productClient, err := grpcservice.NewProductServiceClient(config.GrpcService.ProductGrpcHost)
+	if err != nil {
+		applog.Fatalf("Cannot connect to product service %v", err)
+	}
+
 	server := httpserver.New(config)
 
 	userStore := postgresstore.NewUserStore(db)
 
 	server.Logger = applog
 	server.UserStore = userStore
+	server.ProductService = grpcservice.NewProductService(productClient)
 
 	applog.Info("Server started!")
 	applog.Fatal(http.ListenAndServe(fmt.Sprintf(":%d", config.Port), server))

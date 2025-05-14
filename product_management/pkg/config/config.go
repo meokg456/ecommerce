@@ -34,6 +34,10 @@ type Config struct {
 	API struct {
 		BookAPIUrl string `envconfig:"DATA_API_URL"`
 	}
+
+	GrpcService struct {
+		ProductGrpcHost string `envconfig:"PRODUCT_GRPC_HOST"`
+	}
 }
 
 func LoadConfig() (*Config, error) {

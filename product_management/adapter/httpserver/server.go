@@ -14,6 +14,7 @@ import (
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 
+	"github.com/meokg456/productmanagement/domain/product"
 	"github.com/meokg456/productmanagement/domain/user"
 	"github.com/meokg456/productmanagement/pkg/config"
 	"go.uber.org/zap"
@@ -24,7 +25,8 @@ type Server struct {
 	Config *config.Config
 	Logger *zap.SugaredLogger
 
-	UserStore user.Storage
+	UserStore      user.Storage
+	ProductService product.Service
 }
 
 type CustomValidator struct {
@@ -55,6 +57,10 @@ func New(config *config.Config) *Server {
 	apiGroup := s.Router.Group("/api")
 
 	s.RegisterAuthenticationRoute(apiGroup)
+
+	productGroup := apiGroup.Group("/products")
+
+	s.RegisterProductRoute(productGroup)
 
 	s.RegisterAuthMiddleware()
 

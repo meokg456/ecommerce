@@ -9,10 +9,18 @@ type Product struct {
 	AdditionInfo map[string]any
 }
 
-type Storage interface {
-	GetProductById(id string) (*Product, error)
-	AddProducts(products []Product) error
+type Service interface {
 	AddProduct(product *Product) error
+}
+
+func NewProduct(title string, descriptions string, category string, images []string, additionInfo map[string]any) Product {
+	return Product{
+		Title:        title,
+		Descriptions: descriptions,
+		Category:     category,
+		Images:       images,
+		AdditionInfo: additionInfo,
+	}
 }
 
 func NewProductWithId(id string, title string, descriptions string, category string, images []string, additionInfo map[string]any) Product {

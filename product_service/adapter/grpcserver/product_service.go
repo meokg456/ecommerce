@@ -10,7 +10,6 @@ import (
 )
 
 func (s *Server) AddProduct(ctx context.Context, request *pb.Product) (*pb.Product, error) {
-	s.Logger.Infoln(request.AdditionInfo.AsMap())
 
 	p := product.Product{
 		Title:        request.Title,
