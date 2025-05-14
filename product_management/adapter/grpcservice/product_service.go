@@ -12,8 +12,8 @@ type ProductService struct {
 	productClient pb.ProductServiceClient
 }
 
-func NewProductService(productClient pb.ProductServiceClient) ProductService {
-	return ProductService{
+func NewProductService(productClient pb.ProductServiceClient) *ProductService {
+	return &ProductService{
 		productClient: productClient,
 	}
 }
