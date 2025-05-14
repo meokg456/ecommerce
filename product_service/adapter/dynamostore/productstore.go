@@ -46,8 +46,12 @@ func (p *ProductStore) GetProductById(id string) (*product.Product, error) {
 	}
 
 	return &product.Product{
-		Id:   data.ID,
-		Name: data.Name,
+		Id:           data.ID,
+		Title:        data.Title,
+		Descriptions: data.Descriptions,
+		Category:     data.Category,
+		Images:       data.Images,
+		AdditionInfo: data.AdditionInfo,
 	}, nil
 }
 
@@ -56,8 +60,12 @@ func (p *ProductStore) AddProducts(products []product.Product) error {
 
 	for _, p := range products {
 		data = append(data, ProductData{
-			ID:   p.Id,
-			Name: p.Name,
+			ID:           p.Id,
+			Title:        p.Title,
+			Descriptions: p.Descriptions,
+			Category:     p.Category,
+			Images:       p.Images,
+			AdditionInfo: p.AdditionInfo,
 		})
 	}
 

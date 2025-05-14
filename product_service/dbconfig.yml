@@ -1,5 +1,0 @@
-development:
-  dialect: postgres
-  datasource: postgres://postgres:root@localhost:5432/postgres?sslmode=disable
-  dir: migrations
-  table: gorp_migrations

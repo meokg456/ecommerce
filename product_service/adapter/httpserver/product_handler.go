@@ -35,5 +35,12 @@ func (s *Server) GetProductById(c echo.Context) error {
 		return s.handleError(c, http.StatusInternalServerError, 0)
 	}
 
-	return s.handleSuccess(c, product, http.StatusOK)
+	return s.handleSuccess(c, model.GetProductByIdResponse{
+		Id:           product.Id,
+		Title:        product.Title,
+		Descriptions: product.Descriptions,
+		Category:     product.Category,
+		Images:       product.Images,
+		AdditionInfo: product.AdditionInfo,
+	}, http.StatusOK)
 }
