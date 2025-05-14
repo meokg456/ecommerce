@@ -3,11 +3,14 @@ package httpserver
 import (
 	"fmt"
 	"net/http"
+	"slices"
 	"strconv"
 	"strings"
 
 	"github.com/go-playground/validator"
+	"github.com/golang-jwt/jwt/v5"
 
+	echojwt "github.com/labstack/echo-jwt/v4"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 
@@ -53,7 +56,32 @@ func New(config *config.Config) *Server {
 
 	s.RegisterAuthenticationRoute(apiGroup)
 
+	s.RegisterAuthMiddleware()
+
 	return s
+}
+
+func (s *Server) RegisterAuthMiddleware() {
+	skipPaths := []string{
+		"/healthz",
+		"/api/login",
+		"/api/register",
+		"/api/login-with-google",
+	}
+
+	s.Router.Use(echojwt.WithConfig(
+		echojwt.Config{
+			Skipper: func(c echo.Context) bool {
+				return slices.Contains(skipPaths, c.Path())
+			},
+			SuccessHandler: func(c echo.Context) {
+				user := c.Get("user").(*jwt.Token)
+				claims := user.Claims.(jwt.MapClaims)
+				c.Set("user_id", claims["user_id"])
+			},
+			SigningKey: []byte(s.Config.JwtSecret),
+		},
+	))
 }
 
 func (s *Server) RegisterGlobalMiddlewares() {

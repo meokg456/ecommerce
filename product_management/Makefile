@@ -39,5 +39,8 @@ gen-proto:
 	--go-grpc_out=adapter \
 	$(shell find ./adapter/grpcserver/proto -name '*.proto')
 
-docker:
+docker-build:
 	docker build -t user-service:latest .
+
+docker-db:
+	docker run -p 4432:5432 --name merchant-postgres -e POSTGRES_PASSWORD=root -d postgres:17.5-alpine3.21

@@ -31,6 +31,11 @@ func (productStore *ProductStore) GetProductById(id string) (*product.Product, e
 	return args.Get(0).(*product.Product), args.Error(1)
 }
 
+func (productStore *ProductStore) AddProduct(product *product.Product) error {
+	args := productStore.Called(product)
+	return args.Error(0)
+}
+
 func TestGetProductById(t *testing.T) {
 
 	server := httpserver.New(new(config.Config))

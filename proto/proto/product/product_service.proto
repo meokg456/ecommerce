@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+option go_package = "./product";
+
+import "product/product.proto";
+
+service ProductService {
+    rpc AddProduct(Product) returns (Product);
+}

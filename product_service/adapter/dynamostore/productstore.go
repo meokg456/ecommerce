@@ -10,6 +10,7 @@ import (
 	"github.com/aws/aws-sdk-go-v2/feature/dynamodb/attributevalue"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb/types"
+	"github.com/google/uuid"
 	"github.com/meokg456/productservice/dbconst"
 	"github.com/meokg456/productservice/domain/product"
 )
@@ -80,6 +81,36 @@ func (p *ProductStore) AddProducts(products []product.Product) error {
 		if err != nil {
 			return err
 		}
+	}
+
+	return nil
+}
+
+func (p *ProductStore) AddProduct(product *product.Product) error {
+	id := uuid.NewString()
+
+	product.Id = id
+	data := ProductData{
+		ID:           id,
+		Title:        product.Title,
+		Descriptions: product.Descriptions,
+		Category:     product.Category,
+		Images:       product.Images,
+		AdditionInfo: product.AdditionInfo,
+	}
+
+	av, err := attributevalue.MarshalMap(data)
+	if err != nil {
+		return err
+	}
+
+	_, err = p.client.PutItem(context.Background(), &dynamodb.PutItemInput{
+		Item:      av,
+		TableName: aws.String(dbconst.ProductTableName),
+	})
+
+	if err != nil {
+		return err
 	}
 
 	return nil

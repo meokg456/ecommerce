@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+option go_package = "./product";
+
+import "google/protobuf/struct.proto";
+
+message Product {
+    string id = 1;
+    string title = 2;
+    string descriptions = 3;
+    string category = 4;
+    repeated string images = 5;
+    google.protobuf.Struct additionInfo = 6;
+}

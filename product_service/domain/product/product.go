@@ -12,6 +12,7 @@ type Product struct {
 type Storage interface {
 	GetProductById(id string) (*Product, error)
 	AddProducts(products []Product) error
+	AddProduct(product *Product) error
 }
 
 func NewProductWithId(id string, title string, descriptions string, category string, images []string, additionInfo any) Product {

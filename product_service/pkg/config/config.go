@@ -8,6 +8,7 @@ import (
 type Config struct {
 	AppEnv       string `envconfig:"APP_ENV"`
 	Port         int    `envconfig:"PORT"`
+	GrpcPort     int    `envconfig:"GRPC_PORT"`
 	AllowOrigins string `envconfig:"ALLOW_ORIGIN"`
 
 	DB struct {
