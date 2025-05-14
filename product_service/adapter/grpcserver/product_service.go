@@ -3,7 +3,7 @@ package grpcserver
 import (
 	"context"
 
-	pb "proto/product"
+	pb "github.com/meokg456/ecommerce/proto/product"
 
 	"github.com/meokg456/productservice/domain/product"
 	"google.golang.org/protobuf/types/known/structpb"

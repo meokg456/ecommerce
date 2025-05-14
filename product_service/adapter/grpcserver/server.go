@@ -1,7 +1,7 @@
 package grpcserver
 
 import (
-	pb "proto/product"
+	pb "github.com/meokg456/ecommerce/proto/product"
 
 	"github.com/meokg456/productservice/domain/product"
 	"github.com/meokg456/productservice/pkg/config"

@@ -7,8 +7,12 @@ replace proto => ../proto
 require (
 	github.com/joho/godotenv v1.5.1
 	github.com/kelseyhightower/envconfig v1.4.0
+	github.com/labstack/echo-jwt/v4 v4.3.1
 	go.uber.org/zap v1.27.0
 	golang.org/x/crypto v0.37.0
+	google.golang.org/grpc v1.72.0
+	google.golang.org/protobuf v1.36.6
+	proto v0.0.0-00010101000000-000000000000
 )
 
 require (
@@ -48,7 +52,6 @@ require (
 	github.com/jinzhu/inflection v1.0.0 // indirect
 	github.com/jinzhu/now v1.1.5 // indirect
 	github.com/klauspost/compress v1.17.4 // indirect
-	github.com/labstack/echo-jwt/v4 v4.3.1 // indirect
 	github.com/labstack/gommon v0.4.2 // indirect
 	github.com/leodido/go-urn v1.4.0 // indirect
 	github.com/lufia/plan9stats v0.0.0-20211012122336-39d0f177ccd0 // indirect
@@ -87,11 +90,8 @@ require (
 	golang.org/x/text v0.24.0 // indirect
 	golang.org/x/time v0.11.0 // indirect
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20250428153025-10db94c68c34 // indirect
-	google.golang.org/grpc v1.72.0 // indirect
-	google.golang.org/protobuf v1.36.6 // indirect
 	gopkg.in/go-playground/assert.v1 v1.2.1 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
-	proto v0.0.0-00010101000000-000000000000 // indirect
 )
 
 require (

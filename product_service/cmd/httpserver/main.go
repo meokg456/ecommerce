@@ -5,7 +5,8 @@ import (
 	"log"
 	"net"
 	"net/http"
-	pb "proto/product"
+
+	pb "github.com/meokg456/ecommerce/proto/product"
 
 	"github.com/meokg456/productservice/adapter/dynamostore"
 	"github.com/meokg456/productservice/adapter/grpcserver"
