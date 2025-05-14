@@ -39,5 +39,8 @@ gen-proto:
 	--go-grpc_out=adapter \
 	$(shell find ./adapter/grpcserver/proto -name '*.proto')
 
-docker:
+docker-build:
 	docker build -t user-service:latest .
+
+docker-db:
+	docker run --name product-db  -p 5082:8000 amazon/dynamodb-local:1.19.0
