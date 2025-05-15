@@ -30,12 +30,15 @@ func (s *Server) AddProduct(c echo.Context) error {
 		return s.handleError(c, http.StatusBadRequest, 0)
 	}
 
+	userId := int(c.Get("user_id").(float64))
+
 	p := product.NewProduct(
 		request.Title,
 		request.Descriptions,
 		request.Category,
 		request.Images,
 		request.AdditionInfo,
+		userId,
 	)
 
 	err := s.ProductService.AddProduct(&p)
@@ -51,6 +54,7 @@ func (s *Server) AddProduct(c echo.Context) error {
 		Category:     p.Category,
 		Images:       p.Images,
 		AdditionInfo: p.AdditionInfo,
+		MerchantId:   p.MerchantId,
 	}, http.StatusOK)
 }
 
@@ -68,6 +72,8 @@ func (s *Server) UpdateProduct(c echo.Context) error {
 		return s.handleError(c, http.StatusBadRequest, 0)
 	}
 
+	userId := int(c.Get("user_id").(float64))
+
 	p := product.NewProductWithId(
 		request.Id,
 		request.Title,
@@ -75,6 +81,7 @@ func (s *Server) UpdateProduct(c echo.Context) error {
 		request.Category,
 		request.Images,
 		request.AdditionInfo,
+		userId,
 	)
 
 	err := s.ProductService.UpdateProduct(&p)
@@ -90,6 +97,7 @@ func (s *Server) UpdateProduct(c echo.Context) error {
 		Category:     p.Category,
 		Images:       p.Images,
 		AdditionInfo: p.AdditionInfo,
+		MerchantId:   p.MerchantId,
 	}, http.StatusOK)
 }
 
@@ -107,7 +115,9 @@ func (s *Server) DeleteProduct(c echo.Context) error {
 		return s.handleError(c, http.StatusBadRequest, 0)
 	}
 
-	err := s.ProductService.DeleteProduct(request.Id)
+	userId := int(c.Get("user_id").(float64))
+
+	err := s.ProductService.DeleteProduct(userId, request.Id)
 	if err != nil {
 		s.Logger.Errorw(errors.Join(errors.New("delete product: error when call grpc to delete product"), err).Error(), requestInfo)
 		return s.handleError(c, http.StatusInternalServerError, 0)

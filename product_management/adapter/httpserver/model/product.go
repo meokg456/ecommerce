@@ -15,6 +15,7 @@ type AddProductResponse struct {
 	Category     string         `json:"category"`
 	Images       []string       `json:"images"`
 	AdditionInfo map[string]any `json:"addition_info"`
+	MerchantId   int            `json:"merchant_id"`
 }
 
 type UpdateProductRequest struct {
@@ -33,6 +34,7 @@ type UpdateProductResponse struct {
 	Category     string         `json:"category"`
 	Images       []string       `json:"images"`
 	AdditionInfo map[string]any `json:"addition_info"`
+	MerchantId   int            `json:"merchant_id"`
 }
 
 type DeleteProductRequest struct {

@@ -31,8 +31,8 @@ func (p *ProductService) UpdateProduct(product *product.Product) error {
 	return args.Error(0)
 }
 
-func (p *ProductService) DeleteProduct(id string) error {
-	args := p.Called(id)
+func (p *ProductService) DeleteProduct(merchantId int, id string) error {
+	args := p.Called(merchantId, id)
 	return args.Error(0)
 }
 

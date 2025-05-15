@@ -7,6 +7,7 @@ type Product struct {
 	Category     string
 	Images       []string
 	AdditionInfo map[string]any
+	MerchantId   int
 }
 
 type Storage interface {
@@ -14,7 +15,7 @@ type Storage interface {
 	AddProducts(products []Product) error
 	AddProduct(product *Product) error
 	UpdateProduct(product *Product) error
-	DeleteProduct(id string) error
+	DeleteProduct(merchantId int, id string) error
 }
 
 func NewProductWithId(id string, title string, descriptions string, category string, images []string, additionInfo map[string]any) Product {

@@ -10,6 +10,7 @@ var Products = []product.Product{
 		Category:     "Electronics",
 		Images:       []string{"laptop1.jpg", "laptop2.jpg"},
 		AdditionInfo: map[string]any{"brand": "BrandX", "warranty": "2 years"},
+		MerchantId:   1,
 	},
 	{
 		Id:           "2",
@@ -18,6 +19,7 @@ var Products = []product.Product{
 		Category:     "Electronics",
 		Images:       []string{"smartphone1.jpg", "smartphone2.jpg"},
 		AdditionInfo: map[string]any{"brand": "BrandY", "battery": "4000mAh"},
+		MerchantId:   1,
 	},
 	{
 		Id:           "3",
@@ -26,6 +28,7 @@ var Products = []product.Product{
 		Category:     "Accessories",
 		Images:       []string{"headphones1.jpg", "headphones2.jpg"},
 		AdditionInfo: map[string]any{"brand": "BrandZ", "type": "Wireless"},
+		MerchantId:   1,
 	},
 	{
 		Id:           "4",
@@ -34,6 +37,7 @@ var Products = []product.Product{
 		Category:     "Accessories",
 		Images:       []string{"keyboard1.jpg", "keyboard2.jpg"},
 		AdditionInfo: map[string]any{"brand": "BrandA", "switchType": "Cherry MX Red"},
+		MerchantId:   1,
 	},
 	{
 		Id:           "5",
@@ -42,5 +46,6 @@ var Products = []product.Product{
 		Category:     "Wearables",
 		Images:       []string{"smartwatch1.jpg", "smartwatch2.jpg"},
 		AdditionInfo: map[string]any{"brand": "BrandB", "waterproof": true},
+		MerchantId:   1,
 	},
 }

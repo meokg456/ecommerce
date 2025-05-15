@@ -31,6 +31,7 @@ func (p ProductService) AddProduct(product *product.Product) error {
 		Category:     product.Category,
 		Images:       product.Images,
 		AdditionInfo: additionInfo,
+		MerchantId:   int64(product.MerchantId),
 	})
 
 	if err != nil {
@@ -54,6 +55,7 @@ func (p ProductService) UpdateProduct(product *product.Product) error {
 		Category:     product.Category,
 		Images:       product.Images,
 		AdditionInfo: additionInfo,
+		MerchantId:   int64(product.MerchantId),
 	})
 
 	if err != nil {
@@ -63,9 +65,10 @@ func (p ProductService) UpdateProduct(product *product.Product) error {
 	return nil
 }
 
-func (p ProductService) DeleteProduct(id string) error {
+func (p ProductService) DeleteProduct(merchantId int, id string) error {
 	_, err := p.productClient.DeleteProduct(context.Background(), &pb.DeleteProductRequest{
-		Id: id,
+		Id:         id,
+		MerchantId: int64(merchantId),
 	})
 
 	if err != nil {

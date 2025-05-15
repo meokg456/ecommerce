@@ -3,6 +3,7 @@ package dynamostore
 import (
 	"context"
 	"errors"
+	"strconv"
 
 	"github.com/meokg456/ecommerce/utilities/dynamodbutils"
 
@@ -74,6 +75,7 @@ func (p *ProductStore) AddProducts(products []product.Product) error {
 			Category:     p.Category,
 			Images:       p.Images,
 			AdditionInfo: p.AdditionInfo,
+			MerchantId:   p.MerchantId,
 		})
 	}
 
@@ -103,6 +105,7 @@ func (p *ProductStore) AddProduct(product *product.Product) error {
 		Category:     product.Category,
 		Images:       product.Images,
 		AdditionInfo: product.AdditionInfo,
+		MerchantId:   product.MerchantId,
 	}
 
 	av, err := attributevalue.MarshalMap(data)
@@ -131,6 +134,7 @@ func (p *ProductStore) UpdateProduct(product *product.Product) error {
 		Category:     product.Category,
 		Images:       product.Images,
 		AdditionInfo: product.AdditionInfo,
+		MerchantId:   product.MerchantId,
 	}
 
 	av, err := attributevalue.MarshalMap(data)
@@ -141,7 +145,10 @@ func (p *ProductStore) UpdateProduct(product *product.Product) error {
 	_, err = p.client.PutItem(context.Background(), &dynamodb.PutItemInput{
 		Item:                av,
 		TableName:           aws.String(dbconst.ProductTableName),
-		ConditionExpression: aws.String("attribute_exists(ID)"),
+		ConditionExpression: aws.String("attribute_exists(ID) AND MerchantId = :merchantId"),
+		ExpressionAttributeValues: map[string]types.AttributeValue{
+			":merchantId": &types.AttributeValueMemberN{Value: strconv.Itoa(product.MerchantId)},
+		},
 	})
 
 	if err != nil {
@@ -151,7 +158,7 @@ func (p *ProductStore) UpdateProduct(product *product.Product) error {
 	return nil
 }
 
-func (p *ProductStore) DeleteProduct(id string) error {
+func (p *ProductStore) DeleteProduct(merchantId int, id string) error {
 	data := ProductData{
 		ID: id,
 	}
@@ -164,7 +171,10 @@ func (p *ProductStore) DeleteProduct(id string) error {
 	_, err = p.client.DeleteItem(context.Background(), &dynamodb.DeleteItemInput{
 		Key:                 map[string]types.AttributeValue{"ID": key},
 		TableName:           aws.String(dbconst.ProductTableName),
-		ConditionExpression: aws.String("attribute_exists(ID)"),
+		ConditionExpression: aws.String("attribute_exists(ID) AND MerchantId = :merchantId"),
+		ExpressionAttributeValues: map[string]types.AttributeValue{
+			":merchantId": &types.AttributeValueMemberN{Value: strconv.Itoa(merchantId)},
+		},
 	})
 
 	if err != nil {

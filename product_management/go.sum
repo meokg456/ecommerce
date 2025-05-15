@@ -125,6 +125,8 @@ github.com/meokg456/ecommerce/proto v0.0.0-20250515020513-69f63016dad5 h1:yfBAEZ
 github.com/meokg456/ecommerce/proto v0.0.0-20250515020513-69f63016dad5/go.mod h1:p4HI4jqpVvqvNXjU9YNaaB8L3wdnptfmLJeo+gZt89c=
 github.com/meokg456/ecommerce/proto v0.0.0-20250515031543-35cfa26ed9ca h1:Vdfbt+1Hb1AhtxsKWsOWefG6j89ZkqLiI8hh2LUHX6Y=
 github.com/meokg456/ecommerce/proto v0.0.0-20250515031543-35cfa26ed9ca/go.mod h1:p4HI4jqpVvqvNXjU9YNaaB8L3wdnptfmLJeo+gZt89c=
+github.com/meokg456/ecommerce/proto v0.0.0-20250515042352-145d7b9323fa h1:afUJpSP1qwPzooD4iQKAHopvWWxOONlBGgNiXxJJFi4=
+github.com/meokg456/ecommerce/proto v0.0.0-20250515042352-145d7b9323fa/go.mod h1:sxr/pdZBW843fiQRzWRyXZp3VlHAQO9XSEPTB4gR3kA=
 github.com/moby/docker-image-spec v1.3.1 h1:jMKff3w6PgbfSa69GfNg+zN/XLhfXJGnEx3Nl2EsFP0=
 github.com/moby/docker-image-spec v1.3.1/go.mod h1:eKmb5VW8vQEh/BAr2yvVNvuiJuY6UIocYsFu/DxxRpo=
 github.com/moby/patternmatcher v0.6.0 h1:GmP9lR19aU5GqSSFko+5pRqHi+Ohk1O69aFiKkVGiPk=

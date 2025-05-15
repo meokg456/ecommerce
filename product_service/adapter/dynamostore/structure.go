@@ -7,4 +7,5 @@ type ProductData struct {
 	Category     string         `dynamodbav:"Category"`
 	Images       []string       `dynamodbav:"Images"`
 	AdditionInfo map[string]any `dynamodbav:"AdditionInfo"`
+	MerchantId   int            `dynamodbav:"MerchantId"`
 }

@@ -17,6 +17,7 @@ func (s *Server) AddProduct(ctx context.Context, request *pb.Product) (*pb.Produ
 		Category:     request.Category,
 		Images:       request.Images,
 		AdditionInfo: request.AdditionInfo.AsMap(),
+		MerchantId:   int(request.MerchantId),
 	}
 
 	err := s.ProductStore.AddProduct(&p)
@@ -33,6 +34,7 @@ func (s *Server) AddProduct(ctx context.Context, request *pb.Product) (*pb.Produ
 		Category:     p.Category,
 		Images:       p.Images,
 		AdditionInfo: &structpb.Struct{},
+		MerchantId:   int64(p.MerchantId),
 	}, nil
 }
 
@@ -45,6 +47,7 @@ func (s *Server) UpdateProduct(ctx context.Context, request *pb.Product) (*pb.Pr
 		Category:     request.Category,
 		Images:       request.Images,
 		AdditionInfo: request.AdditionInfo.AsMap(),
+		MerchantId:   int(request.MerchantId),
 	}
 
 	err := s.ProductStore.UpdateProduct(&p)
@@ -61,12 +64,13 @@ func (s *Server) UpdateProduct(ctx context.Context, request *pb.Product) (*pb.Pr
 		Category:     p.Category,
 		Images:       p.Images,
 		AdditionInfo: &structpb.Struct{},
+		MerchantId:   int64(p.MerchantId),
 	}, nil
 }
 
 func (s *Server) DeleteProduct(ctx context.Context, request *pb.DeleteProductRequest) (*pb.DeleteProductResponse, error) {
 
-	err := s.ProductStore.DeleteProduct(request.Id)
+	err := s.ProductStore.DeleteProduct(int(request.MerchantId), request.Id)
 
 	if err != nil {
 		s.Logger.Errorf("delete product grpc: failed to delete product %v", request)

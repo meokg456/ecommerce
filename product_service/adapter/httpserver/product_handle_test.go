@@ -41,8 +41,8 @@ func (productStore *ProductStore) UpdateProduct(product *product.Product) error 
 	return args.Error(0)
 }
 
-func (productStore *ProductStore) DeleteProduct(id string) error {
-	args := productStore.Called(id)
+func (productStore *ProductStore) DeleteProduct(merchantId int, id string) error {
+	args := productStore.Called(merchantId, id)
 	return args.Error(0)
 }
 
