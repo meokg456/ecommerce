@@ -77,6 +77,7 @@ func (x *GetProductsByMerchantIdRequest) GetPage() *common.Page {
 type GetProductsByMerchantIdResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Products      []*Product             `protobuf:"bytes,1,rep,name=products,proto3" json:"products,omitempty"`
+	LastKey       string                 `protobuf:"bytes,2,opt,name=lastKey,proto3" json:"lastKey,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -116,6 +117,13 @@ func (x *GetProductsByMerchantIdResponse) GetProducts() []*Product {
 		return x.Products
 	}
 	return nil
+}
+
+func (x *GetProductsByMerchantIdResponse) GetLastKey() string {
+	if x != nil {
+		return x.LastKey
+	}
+	return ""
 }
 
 type DeleteProductRequest struct {
@@ -223,9 +231,10 @@ const file_product_product_service_proto_rawDesc = "" +
 	"\n" +
 	"merchantId\x18\x01 \x01(\x03R\n" +
 	"merchantId\x12\x19\n" +
-	"\x04page\x18\x02 \x01(\v2\x05.PageR\x04page\"G\n" +
+	"\x04page\x18\x02 \x01(\v2\x05.PageR\x04page\"a\n" +
 	"\x1fGetProductsByMerchantIdResponse\x12$\n" +
-	"\bproducts\x18\x01 \x03(\v2\b.ProductR\bproducts\"F\n" +
+	"\bproducts\x18\x01 \x03(\v2\b.ProductR\bproducts\x12\x18\n" +
+	"\alastKey\x18\x02 \x01(\tR\alastKey\"F\n" +
 	"\x14DeleteProductRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x1e\n" +
 	"\n" +

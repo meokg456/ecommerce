@@ -19,6 +19,7 @@ message GetProductsByMerchantIdRequest {
 
 message GetProductsByMerchantIdResponse {
     repeated Product products = 1;
+    string lastKey = 2;
 }
 
 message DeleteProductRequest {
