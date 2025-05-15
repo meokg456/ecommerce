@@ -1,5 +1,7 @@
 package product
 
+import "github.com/meokg456/productservice/domain/common"
+
 type Product struct {
 	Id           string
 	Title        string
@@ -11,6 +13,7 @@ type Product struct {
 }
 
 type Storage interface {
+	GetProductsByMerchantId(merchantId int, page common.Page) ([]Product, error)
 	GetProductById(id string) (*Product, error)
 	AddProducts(products []Product) error
 	AddProduct(product *Product) error

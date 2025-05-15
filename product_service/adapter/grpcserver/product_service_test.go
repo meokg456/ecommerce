@@ -8,6 +8,7 @@ import (
 	pb "github.com/meokg456/ecommerce/proto/product"
 	"github.com/meokg456/productservice/adapter/grpcserver"
 	"github.com/meokg456/productservice/adapter/testutil"
+	"github.com/meokg456/productservice/domain/common"
 	"github.com/meokg456/productservice/domain/product"
 	"github.com/meokg456/productservice/pkg/config"
 	"github.com/stretchr/testify/assert"
@@ -42,6 +43,11 @@ func (productStore *ProductStore) UpdateProduct(product *product.Product) error 
 func (productStore *ProductStore) DeleteProduct(merchantId int, id string) error {
 	args := productStore.Called(merchantId, id)
 	return args.Error(0)
+}
+
+func (productStore *ProductStore) GetProductsByMerchantId(merchantId int, page common.Page) ([]product.Product, error) {
+	args := productStore.Called(merchantId, page)
+	return args.Get(0).([]product.Product), args.Error(0)
 }
 
 func TestAddProduct(t *testing.T) {

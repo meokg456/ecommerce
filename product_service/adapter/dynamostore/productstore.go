@@ -3,6 +3,7 @@ package dynamostore
 import (
 	"context"
 	"errors"
+	"fmt"
 	"strconv"
 
 	"github.com/meokg456/ecommerce/utilities/dynamodbutils"
@@ -13,6 +14,7 @@ import (
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb/types"
 	"github.com/google/uuid"
 	"github.com/meokg456/productservice/dbconst"
+	"github.com/meokg456/productservice/domain/common"
 	"github.com/meokg456/productservice/domain/product"
 )
 
@@ -24,6 +26,40 @@ func NewProductStore(client *dynamodb.Client) *ProductStore {
 	return &ProductStore{
 		client: client,
 	}
+}
+
+func (p *ProductStore) GetProductsByMerchantId(merchantId int, page common.Page) ([]product.Product, error) {
+	var products []product.Product
+
+	merchantIdString := strconv.Itoa(merchantId)
+
+	output, err := p.client.Query(context.Background(), &dynamodb.QueryInput{
+		TableName:              aws.String(dbconst.ProductTableName),
+		KeyConditionExpression: aws.String("MerchantId = :merchantId"),
+		IndexName:              aws.String(dbconst.ProductMerchantIdIndexName),
+		ExpressionAttributeValues: map[string]types.AttributeValue{
+			":merchantId": &types.AttributeValueMemberN{Value: merchantIdString},
+		},
+		Limit: aws.Int32(int32(page.Limit)),
+		ExclusiveStartKey: map[string]types.AttributeValue{
+			dbconst.ProductPK:             &types.AttributeValueMemberS{Value: page.LastKeyOffset},
+			dbconst.ProductMerchantIdName: &types.AttributeValueMemberN{Value: merchantIdString},
+		},
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	fmt.Println(output.LastEvaluatedKey["ID"])
+	fmt.Println(output.LastEvaluatedKey["MerchantId"])
+
+	err = attributevalue.UnmarshalListOfMaps(output.Items, &products)
+	if err != nil {
+		return nil, err
+	}
+
+	return products, nil
 }
 
 func (p *ProductStore) GetProductById(id string) (*product.Product, error) {

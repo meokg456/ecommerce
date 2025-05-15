@@ -5,9 +5,42 @@ import (
 
 	pb "github.com/meokg456/ecommerce/proto/product"
 
+	"github.com/meokg456/productservice/domain/common"
 	"github.com/meokg456/productservice/domain/product"
 	"google.golang.org/protobuf/types/known/structpb"
 )
+
+func (s *Server) GetProductsByMerchantId(ctx context.Context, request *pb.GetProductsByMerchantIdRequest) (*pb.GetProductsByMerchantIdResponse, error) {
+
+	products, err := s.ProductStore.GetProductsByMerchantId(int(request.MerchantId), common.Page{
+		Page:          int(request.Page.Page),
+		LastKeyOffset: request.Page.LastKeyOffset,
+		Limit:         int(request.Page.Limit),
+	})
+
+	if err != nil {
+		s.Logger.Errorf("get products by merchant id grpc: failed to get products %v: %v", request, err)
+		return nil, err
+	}
+
+	var result []*pb.Product
+
+	for _, p := range products {
+		result = append(result, &pb.Product{
+			Id:           p.Id,
+			Title:        p.Title,
+			Descriptions: p.Descriptions,
+			Category:     p.Category,
+			Images:       p.Images,
+			AdditionInfo: &structpb.Struct{},
+			MerchantId:   int64(p.MerchantId),
+		})
+	}
+
+	return &pb.GetProductsByMerchantIdResponse{
+		Products: result,
+	}, nil
+}
 
 func (s *Server) AddProduct(ctx context.Context, request *pb.Product) (*pb.Product, error) {
 
