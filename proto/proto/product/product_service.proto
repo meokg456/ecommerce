@@ -1,8 +1,9 @@
 syntax = "proto3";
 
-option go_package = "./product";
+option go_package = "github.com/meokg456/ecommerce/proto/product";
 
 import "product/product.proto";
+import "common/common.proto";
 
 service ProductService {
     rpc GetProductsByMerchantId(GetProductsByMerchantIdRequest) returns (GetProductsByMerchantIdResponse);
@@ -13,8 +14,7 @@ service ProductService {
 
 message GetProductsByMerchantIdRequest {
     int64 merchantId = 1;
-    int32 page = 2;
-    int32 limit = 3;
+    Page page = 2;
 }
 
 message GetProductsByMerchantIdResponse {

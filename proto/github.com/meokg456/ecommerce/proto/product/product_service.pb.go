@@ -7,7 +7,7 @@
 package product
 
 import (
-	"github.com/meokg456/ecommerce/proto/common"
+	common "github.com/meokg456/ecommerce/proto/common"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
@@ -238,7 +238,7 @@ const file_product_product_service_proto_rawDesc = "" +
 	"\n" +
 	"AddProduct\x12\b.Product\x1a\b.Product\x12#\n" +
 	"\rUpdateProduct\x12\b.Product\x1a\b.Product\x12>\n" +
-	"\rDeleteProduct\x12\x15.DeleteProductRequest\x1a\x16.DeleteProductResponseB\vZ\t./productb\x06proto3"
+	"\rDeleteProduct\x12\x15.DeleteProductRequest\x1a\x16.DeleteProductResponseB-Z+github.com/meokg456/ecommerce/proto/productb\x06proto3"
 
 var (
 	file_product_product_service_proto_rawDescOnce sync.Once
