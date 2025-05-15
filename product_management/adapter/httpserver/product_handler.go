@@ -6,14 +6,44 @@ import (
 
 	"github.com/labstack/echo/v4"
 	"github.com/meokg456/productmanagement/adapter/httpserver/model"
+	"github.com/meokg456/productmanagement/domain/common"
 	"github.com/meokg456/productmanagement/domain/product"
 	"go.uber.org/zap"
 )
 
 func (s *Server) RegisterProductRoute(router *echo.Group) {
+	router.GET("", s.GetProducts)
 	router.POST("", s.AddProduct)
 	router.POST("/:id", s.UpdateProduct)
 	router.DELETE("/:id", s.DeleteProduct)
+}
+
+func (s *Server) GetProducts(c echo.Context) error {
+	requestInfo := zap.String("request_id", s.requestID(c))
+
+	var request model.GetProductsByMerchantId
+	if err := c.Bind(&request); err != nil {
+		s.Logger.Errorw(errors.Join(errors.New("get products: error when parse request body"), err).Error(), requestInfo)
+		return s.handleError(c, http.StatusBadRequest, 0)
+	}
+
+	if err := c.Validate(request); err != nil {
+		s.Logger.Errorw(errors.Join(errors.New("get products: invalid request body"), err).Error(), requestInfo)
+		return s.handleError(c, http.StatusBadRequest, 0)
+	}
+
+	userId := int(c.Get("user_id").(float64))
+
+	products, lastKey, err := s.ProductService.GetProductsByMerchantId(userId, common.Page{
+		Limit:         request.Limit,
+		LastKeyOffset: request.LastKeyOffset,
+	})
+	if err != nil {
+		s.Logger.Errorw(errors.Join(errors.New("add product: error when call grpc to add product"), err).Error(), requestInfo)
+		return s.handleError(c, http.StatusInternalServerError, 0)
+	}
+
+	return s.handleSuccessWithPagination(c, http.StatusOK, products, lastKey, request.Limit, 0)
 }
 
 func (s *Server) AddProduct(c echo.Context) error {

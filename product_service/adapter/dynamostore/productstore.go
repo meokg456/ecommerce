@@ -3,7 +3,6 @@ package dynamostore
 import (
 	"context"
 	"errors"
-	"fmt"
 	"strconv"
 
 	"github.com/meokg456/ecommerce/utilities/dynamodbutils"
@@ -28,10 +27,19 @@ func NewProductStore(client *dynamodb.Client) *ProductStore {
 	}
 }
 
-func (p *ProductStore) GetProductsByMerchantId(merchantId int, page common.Page) ([]product.Product, error) {
+func (p *ProductStore) GetProductsByMerchantId(merchantId int, page common.Page) ([]product.Product, string, error) {
 	var products []product.Product
 
 	merchantIdString := strconv.Itoa(merchantId)
+
+	var exclusiveStartKey map[string]types.AttributeValue = nil
+
+	if page.LastKeyOffset != "" {
+		exclusiveStartKey = map[string]types.AttributeValue{
+			dbconst.ProductPK:             &types.AttributeValueMemberS{Value: page.LastKeyOffset},
+			dbconst.ProductMerchantIdName: &types.AttributeValueMemberN{Value: merchantIdString},
+		}
+	}
 
 	output, err := p.client.Query(context.Background(), &dynamodb.QueryInput{
 		TableName:              aws.String(dbconst.ProductTableName),
@@ -40,26 +48,22 @@ func (p *ProductStore) GetProductsByMerchantId(merchantId int, page common.Page)
 		ExpressionAttributeValues: map[string]types.AttributeValue{
 			":merchantId": &types.AttributeValueMemberN{Value: merchantIdString},
 		},
-		Limit: aws.Int32(int32(page.Limit)),
-		ExclusiveStartKey: map[string]types.AttributeValue{
-			dbconst.ProductPK:             &types.AttributeValueMemberS{Value: page.LastKeyOffset},
-			dbconst.ProductMerchantIdName: &types.AttributeValueMemberN{Value: merchantIdString},
-		},
+		Limit:             aws.Int32(int32(page.Limit)),
+		ExclusiveStartKey: exclusiveStartKey,
 	})
 
 	if err != nil {
-		return nil, err
+		return nil, "", err
 	}
-
-	fmt.Println(output.LastEvaluatedKey["ID"])
-	fmt.Println(output.LastEvaluatedKey["MerchantId"])
 
 	err = attributevalue.UnmarshalListOfMaps(output.Items, &products)
 	if err != nil {
-		return nil, err
+		return nil, "", err
 	}
 
-	return products, nil
+	lastKey := output.LastEvaluatedKey[dbconst.ProductPK].(*types.AttributeValueMemberS)
+
+	return products, lastKey.Value, nil
 }
 
 func (p *ProductStore) GetProductById(id string) (*product.Product, error) {

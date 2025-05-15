@@ -40,3 +40,8 @@ type UpdateProductResponse struct {
 type DeleteProductRequest struct {
 	Id string `param:"id" validate:"required"`
 }
+
+type GetProductsByMerchantId struct {
+	LastKeyOffset string `json:"lastKeyOffset"`
+	Limit         int    `json:"limit"`
+}

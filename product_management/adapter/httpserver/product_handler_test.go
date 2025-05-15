@@ -11,6 +11,7 @@ import (
 	"github.com/meokg456/productmanagement/adapter/httpserver"
 	"github.com/meokg456/productmanagement/adapter/httpserver/model"
 	"github.com/meokg456/productmanagement/adapter/testutil"
+	"github.com/meokg456/productmanagement/domain/common"
 	"github.com/meokg456/productmanagement/domain/product"
 	"github.com/meokg456/productmanagement/pkg/config"
 	"github.com/stretchr/testify/assert"
@@ -34,6 +35,11 @@ func (p *ProductService) UpdateProduct(product *product.Product) error {
 func (p *ProductService) DeleteProduct(merchantId int, id string) error {
 	args := p.Called(merchantId, id)
 	return args.Error(0)
+}
+
+func (productStore *ProductService) GetProductsByMerchantId(merchantId int, page common.Page) ([]product.Product, string, error) {
+	args := productStore.Called(merchantId, page)
+	return args.Get(0).([]product.Product), args.String(1), args.Error(2)
 }
 
 func TestAddProduct(t *testing.T) {

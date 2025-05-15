@@ -47,10 +47,11 @@ func (productStore *ProductStore) DeleteProduct(merchantId int, id string) error
 	return args.Error(0)
 }
 
-func (productStore *ProductStore) GetProductsByMerchantId(merchantId int, page common.Page) ([]product.Product, error) {
+func (productStore *ProductStore) GetProductsByMerchantId(merchantId int, page common.Page) ([]product.Product, string, error) {
 	args := productStore.Called(merchantId, page)
-	return args.Get(0).([]product.Product), args.Error(0)
+	return args.Get(0).([]product.Product), args.String(1), args.Error(2)
 }
+
 func TestGetProductById(t *testing.T) {
 
 	server := httpserver.New(new(config.Config))

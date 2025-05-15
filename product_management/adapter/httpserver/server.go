@@ -141,16 +141,16 @@ func (s *Server) handleSuccess(c echo.Context, data any, status int) error {
 	})
 }
 
-func (s *Server) handleSuccessWithPagination(c echo.Context, status int, data any, page int, limit int, total int) error {
+func (s *Server) handleSuccessWithPagination(c echo.Context, status int, data any, keyOffset string, limit int, total int) error {
 
 	return c.JSON(status, map[string]any{
 		"code":    strconv.Itoa(status),
 		"message": "OK",
 		"result": map[string]any{
-			"data":  data,
-			"page":  page,
-			"limit": limit,
-			"total": total,
+			"data":       data,
+			"key_offset": keyOffset,
+			"limit":      limit,
+			"total":      total,
 		},
 	})
 }

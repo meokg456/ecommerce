@@ -1,5 +1,7 @@
 package product
 
+import "github.com/meokg456/productmanagement/domain/common"
+
 type Product struct {
 	Id           string
 	Title        string
@@ -11,6 +13,7 @@ type Product struct {
 }
 
 type Service interface {
+	GetProductsByMerchantId(merchantId int, page common.Page) ([]Product, string, error)
 	AddProduct(product *Product) error
 	UpdateProduct(product *Product) error
 	DeleteProduct(merchantId int, int string) error

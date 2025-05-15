@@ -3,8 +3,10 @@ package grpcservice
 import (
 	"context"
 
+	pbcommon "github.com/meokg456/ecommerce/proto/common"
 	pb "github.com/meokg456/ecommerce/proto/product"
 
+	"github.com/meokg456/productmanagement/domain/common"
 	"github.com/meokg456/productmanagement/domain/product"
 	"google.golang.org/protobuf/types/known/structpb"
 )
@@ -76,4 +78,34 @@ func (p ProductService) DeleteProduct(merchantId int, id string) error {
 	}
 
 	return nil
+}
+
+func (p ProductService) GetProductsByMerchantId(merchantId int, page common.Page) ([]product.Product, string, error) {
+	var products []product.Product
+
+	response, err := p.productClient.GetProductsByMerchantId(context.Background(), &pb.GetProductsByMerchantIdRequest{
+		MerchantId: int64(merchantId),
+		Page: &pbcommon.Page{
+			LastKeyOffset: page.LastKeyOffset,
+			Limit:         int32(page.Limit),
+		},
+	})
+
+	if err != nil {
+		return nil, "", err
+	}
+
+	for _, p := range response.Products {
+		products = append(products, product.NewProductWithId(
+			p.Id,
+			p.Title,
+			p.Descriptions,
+			p.Category,
+			p.Images,
+			p.AdditionInfo.AsMap(),
+			int(p.MerchantId),
+		))
+	}
+
+	return products, response.LastKey, nil
 }

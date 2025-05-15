@@ -12,7 +12,7 @@ import (
 
 func (s *Server) GetProductsByMerchantId(ctx context.Context, request *pb.GetProductsByMerchantIdRequest) (*pb.GetProductsByMerchantIdResponse, error) {
 
-	products, err := s.ProductStore.GetProductsByMerchantId(int(request.MerchantId), common.Page{
+	products, lastKey, err := s.ProductStore.GetProductsByMerchantId(int(request.MerchantId), common.Page{
 		Page:          int(request.Page.Page),
 		LastKeyOffset: request.Page.LastKeyOffset,
 		Limit:         int(request.Page.Limit),
@@ -39,6 +39,7 @@ func (s *Server) GetProductsByMerchantId(ctx context.Context, request *pb.GetPro
 
 	return &pb.GetProductsByMerchantIdResponse{
 		Products: result,
+		LastKey:  lastKey,
 	}, nil
 }
 

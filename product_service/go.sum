@@ -123,6 +123,8 @@ github.com/meokg456/ecommerce/proto v0.0.0-20250515042352-145d7b9323fa h1:afUJpS
 github.com/meokg456/ecommerce/proto v0.0.0-20250515042352-145d7b9323fa/go.mod h1:sxr/pdZBW843fiQRzWRyXZp3VlHAQO9XSEPTB4gR3kA=
 github.com/meokg456/ecommerce/proto v0.0.0-20250515090946-6c90e79a781a h1:tKojIThV/wk5t8Y190p/d3ZcCmWPQy0M4Xa1x+G59vc=
 github.com/meokg456/ecommerce/proto v0.0.0-20250515090946-6c90e79a781a/go.mod h1:sxr/pdZBW843fiQRzWRyXZp3VlHAQO9XSEPTB4gR3kA=
+github.com/meokg456/ecommerce/proto v0.0.0-20250515094646-ecb935bf40d3 h1:IDE6gGmLuIEmmwS4vJkZfBlGE2F9LfLA70qq6H6+8CM=
+github.com/meokg456/ecommerce/proto v0.0.0-20250515094646-ecb935bf40d3/go.mod h1:sxr/pdZBW843fiQRzWRyXZp3VlHAQO9XSEPTB4gR3kA=
 github.com/meokg456/ecommerce/utilities v0.0.0-20250514090407-8bb695db3163 h1:tQXkW+PKFbfLGY7HfEHeM9HiZ0DQwrjp7c5Qy9nl2lI=
 github.com/meokg456/ecommerce/utilities v0.0.0-20250514090407-8bb695db3163/go.mod h1:CFECGWLSNQrelvOJMt17MBcsU1SYnaftRDSusC4VbbA=
 github.com/moby/docker-image-spec v1.3.1 h1:jMKff3w6PgbfSa69GfNg+zN/XLhfXJGnEx3Nl2EsFP0=

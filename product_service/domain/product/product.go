@@ -13,7 +13,7 @@ type Product struct {
 }
 
 type Storage interface {
-	GetProductsByMerchantId(merchantId int, page common.Page) ([]Product, error)
+	GetProductsByMerchantId(merchantId int, page common.Page) ([]Product, string, error)
 	GetProductById(id string) (*Product, error)
 	AddProducts(products []Product) error
 	AddProduct(product *Product) error
