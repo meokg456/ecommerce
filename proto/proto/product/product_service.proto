@@ -12,6 +12,7 @@ service ProductService {
 
 message DeleteProductRequest {
     string id = 1;
+    int64 merchantId = 2;
 }
 
 message DeleteProductResponse {

@@ -24,6 +24,7 @@ const (
 type DeleteProductRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	MerchantId    int64                  `protobuf:"varint,2,opt,name=merchantId,proto3" json:"merchantId,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -63,6 +64,13 @@ func (x *DeleteProductRequest) GetId() string {
 		return x.Id
 	}
 	return ""
+}
+
+func (x *DeleteProductRequest) GetMerchantId() int64 {
+	if x != nil {
+		return x.MerchantId
+	}
+	return 0
 }
 
 type DeleteProductResponse struct {
@@ -113,9 +121,12 @@ var File_product_product_service_proto protoreflect.FileDescriptor
 
 const file_product_product_service_proto_rawDesc = "" +
 	"\n" +
-	"\x1dproduct/product_service.proto\x1a\x15product/product.proto\"&\n" +
+	"\x1dproduct/product_service.proto\x1a\x15product/product.proto\"F\n" +
 	"\x14DeleteProductRequest\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\tR\x02id\"'\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\x12\x1e\n" +
+	"\n" +
+	"merchantId\x18\x02 \x01(\x03R\n" +
+	"merchantId\"'\n" +
 	"\x15DeleteProductResponse\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id2\x97\x01\n" +
 	"\x0eProductService\x12 \n" +

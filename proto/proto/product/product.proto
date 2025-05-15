@@ -11,4 +11,5 @@ message Product {
     string category = 4;
     repeated string images = 5;
     google.protobuf.Struct additionInfo = 6;
+    int64 merchantId = 7;
 }

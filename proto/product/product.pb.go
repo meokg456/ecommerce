@@ -30,6 +30,7 @@ type Product struct {
 	Category      string                 `protobuf:"bytes,4,opt,name=category,proto3" json:"category,omitempty"`
 	Images        []string               `protobuf:"bytes,5,rep,name=images,proto3" json:"images,omitempty"`
 	AdditionInfo  *structpb.Struct       `protobuf:"bytes,6,opt,name=additionInfo,proto3" json:"additionInfo,omitempty"`
+	MerchantId    int64                  `protobuf:"varint,7,opt,name=merchantId,proto3" json:"merchantId,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -106,18 +107,28 @@ func (x *Product) GetAdditionInfo() *structpb.Struct {
 	return nil
 }
 
+func (x *Product) GetMerchantId() int64 {
+	if x != nil {
+		return x.MerchantId
+	}
+	return 0
+}
+
 var File_product_product_proto protoreflect.FileDescriptor
 
 const file_product_product_proto_rawDesc = "" +
 	"\n" +
-	"\x15product/product.proto\x1a\x1cgoogle/protobuf/struct.proto\"\xc4\x01\n" +
+	"\x15product/product.proto\x1a\x1cgoogle/protobuf/struct.proto\"\xe4\x01\n" +
 	"\aProduct\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x14\n" +
 	"\x05title\x18\x02 \x01(\tR\x05title\x12\"\n" +
 	"\fdescriptions\x18\x03 \x01(\tR\fdescriptions\x12\x1a\n" +
 	"\bcategory\x18\x04 \x01(\tR\bcategory\x12\x16\n" +
 	"\x06images\x18\x05 \x03(\tR\x06images\x12;\n" +
-	"\fadditionInfo\x18\x06 \x01(\v2\x17.google.protobuf.StructR\fadditionInfoB\vZ\t./productb\x06proto3"
+	"\fadditionInfo\x18\x06 \x01(\v2\x17.google.protobuf.StructR\fadditionInfo\x12\x1e\n" +
+	"\n" +
+	"merchantId\x18\a \x01(\x03R\n" +
+	"merchantIdB\vZ\t./productb\x06proto3"
 
 var (
 	file_product_product_proto_rawDescOnce sync.Once
