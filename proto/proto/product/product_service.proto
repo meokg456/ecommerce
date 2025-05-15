@@ -5,9 +5,20 @@ option go_package = "./product";
 import "product/product.proto";
 
 service ProductService {
+    rpc GetProductsByMerchantId(GetProductsByMerchantIdRequest) returns (GetProductsByMerchantIdResponse);
     rpc AddProduct(Product) returns (Product);
     rpc UpdateProduct(Product) returns (Product);
     rpc DeleteProduct(DeleteProductRequest) returns (DeleteProductResponse);
+}
+
+message GetProductsByMerchantIdRequest {
+    int64 merchantId = 1;
+    int32 page = 2;
+    int32 limit = 3;
+}
+
+message GetProductsByMerchantIdResponse {
+    repeated Product products = 1;
 }
 
 message DeleteProductRequest {
