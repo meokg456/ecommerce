@@ -6,4 +6,5 @@ import "product/product.proto";
 
 service ProductService {
     rpc AddProduct(Product) returns (Product);
+    rpc UpdateProduct(Product) returns (Product);
 }

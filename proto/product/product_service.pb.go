@@ -24,19 +24,22 @@ var File_product_product_service_proto protoreflect.FileDescriptor
 
 const file_product_product_service_proto_rawDesc = "" +
 	"\n" +
-	"\x1dproduct/product_service.proto\x1a\x15product/product.proto22\n" +
+	"\x1dproduct/product_service.proto\x1a\x15product/product.proto2W\n" +
 	"\x0eProductService\x12 \n" +
 	"\n" +
-	"AddProduct\x12\b.Product\x1a\b.ProductB\vZ\t./productb\x06proto3"
+	"AddProduct\x12\b.Product\x1a\b.Product\x12#\n" +
+	"\rUpdateProduct\x12\b.Product\x1a\b.ProductB\vZ\t./productb\x06proto3"
 
 var file_product_product_service_proto_goTypes = []any{
 	(*Product)(nil), // 0: Product
 }
 var file_product_product_service_proto_depIdxs = []int32{
 	0, // 0: ProductService.AddProduct:input_type -> Product
-	0, // 1: ProductService.AddProduct:output_type -> Product
-	1, // [1:2] is the sub-list for method output_type
-	0, // [0:1] is the sub-list for method input_type
+	0, // 1: ProductService.UpdateProduct:input_type -> Product
+	0, // 2: ProductService.AddProduct:output_type -> Product
+	0, // 3: ProductService.UpdateProduct:output_type -> Product
+	2, // [2:4] is the sub-list for method output_type
+	0, // [0:2] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name
 	0, // [0:0] is the sub-list for extension extendee
 	0, // [0:0] is the sub-list for field type_name
