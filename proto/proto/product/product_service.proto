@@ -7,4 +7,13 @@ import "product/product.proto";
 service ProductService {
     rpc AddProduct(Product) returns (Product);
     rpc UpdateProduct(Product) returns (Product);
+    rpc DeleteProduct(DeleteProductRequest) returns (DeleteProductResponse);
+}
+
+message DeleteProductRequest {
+    string id = 1;
+}
+
+message DeleteProductResponse {
+    string id = 1;
 }

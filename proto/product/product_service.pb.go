@@ -10,6 +10,7 @@ import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
+	sync "sync"
 	unsafe "unsafe"
 )
 
@@ -20,26 +21,136 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+type DeleteProductRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DeleteProductRequest) Reset() {
+	*x = DeleteProductRequest{}
+	mi := &file_product_product_service_proto_msgTypes[0]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DeleteProductRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteProductRequest) ProtoMessage() {}
+
+func (x *DeleteProductRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_product_product_service_proto_msgTypes[0]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteProductRequest.ProtoReflect.Descriptor instead.
+func (*DeleteProductRequest) Descriptor() ([]byte, []int) {
+	return file_product_product_service_proto_rawDescGZIP(), []int{0}
+}
+
+func (x *DeleteProductRequest) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
+type DeleteProductResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DeleteProductResponse) Reset() {
+	*x = DeleteProductResponse{}
+	mi := &file_product_product_service_proto_msgTypes[1]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DeleteProductResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteProductResponse) ProtoMessage() {}
+
+func (x *DeleteProductResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_product_product_service_proto_msgTypes[1]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteProductResponse.ProtoReflect.Descriptor instead.
+func (*DeleteProductResponse) Descriptor() ([]byte, []int) {
+	return file_product_product_service_proto_rawDescGZIP(), []int{1}
+}
+
+func (x *DeleteProductResponse) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
 var File_product_product_service_proto protoreflect.FileDescriptor
 
 const file_product_product_service_proto_rawDesc = "" +
 	"\n" +
-	"\x1dproduct/product_service.proto\x1a\x15product/product.proto2W\n" +
+	"\x1dproduct/product_service.proto\x1a\x15product/product.proto\"&\n" +
+	"\x14DeleteProductRequest\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\"'\n" +
+	"\x15DeleteProductResponse\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id2\x97\x01\n" +
 	"\x0eProductService\x12 \n" +
 	"\n" +
 	"AddProduct\x12\b.Product\x1a\b.Product\x12#\n" +
-	"\rUpdateProduct\x12\b.Product\x1a\b.ProductB\vZ\t./productb\x06proto3"
+	"\rUpdateProduct\x12\b.Product\x1a\b.Product\x12>\n" +
+	"\rDeleteProduct\x12\x15.DeleteProductRequest\x1a\x16.DeleteProductResponseB\vZ\t./productb\x06proto3"
 
+var (
+	file_product_product_service_proto_rawDescOnce sync.Once
+	file_product_product_service_proto_rawDescData []byte
+)
+
+func file_product_product_service_proto_rawDescGZIP() []byte {
+	file_product_product_service_proto_rawDescOnce.Do(func() {
+		file_product_product_service_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_product_product_service_proto_rawDesc), len(file_product_product_service_proto_rawDesc)))
+	})
+	return file_product_product_service_proto_rawDescData
+}
+
+var file_product_product_service_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
 var file_product_product_service_proto_goTypes = []any{
-	(*Product)(nil), // 0: Product
+	(*DeleteProductRequest)(nil),  // 0: DeleteProductRequest
+	(*DeleteProductResponse)(nil), // 1: DeleteProductResponse
+	(*Product)(nil),               // 2: Product
 }
 var file_product_product_service_proto_depIdxs = []int32{
-	0, // 0: ProductService.AddProduct:input_type -> Product
-	0, // 1: ProductService.UpdateProduct:input_type -> Product
-	0, // 2: ProductService.AddProduct:output_type -> Product
-	0, // 3: ProductService.UpdateProduct:output_type -> Product
-	2, // [2:4] is the sub-list for method output_type
-	0, // [0:2] is the sub-list for method input_type
+	2, // 0: ProductService.AddProduct:input_type -> Product
+	2, // 1: ProductService.UpdateProduct:input_type -> Product
+	0, // 2: ProductService.DeleteProduct:input_type -> DeleteProductRequest
+	2, // 3: ProductService.AddProduct:output_type -> Product
+	2, // 4: ProductService.UpdateProduct:output_type -> Product
+	1, // 5: ProductService.DeleteProduct:output_type -> DeleteProductResponse
+	3, // [3:6] is the sub-list for method output_type
+	0, // [0:3] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name
 	0, // [0:0] is the sub-list for extension extendee
 	0, // [0:0] is the sub-list for field type_name
@@ -57,12 +168,13 @@ func file_product_product_service_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_product_product_service_proto_rawDesc), len(file_product_product_service_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   0,
+			NumMessages:   2,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
 		GoTypes:           file_product_product_service_proto_goTypes,
 		DependencyIndexes: file_product_product_service_proto_depIdxs,
+		MessageInfos:      file_product_product_service_proto_msgTypes,
 	}.Build()
 	File_product_product_service_proto = out.File
 	file_product_product_service_proto_goTypes = nil
