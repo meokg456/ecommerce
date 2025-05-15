@@ -4,5 +4,6 @@ option go_package = "github.com/meokg456/ecommerce/proto/common";
 
 message Page {
     int32 page = 1;
-    int32 limit = 2;
+    string lastKeyOffset = 2;
+    int32 limit = 3;
 }

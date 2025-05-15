@@ -24,7 +24,8 @@ const (
 type Page struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Page          int32                  `protobuf:"varint,1,opt,name=page,proto3" json:"page,omitempty"`
-	Limit         int32                  `protobuf:"varint,2,opt,name=limit,proto3" json:"limit,omitempty"`
+	LastKeyOffset string                 `protobuf:"bytes,2,opt,name=lastKeyOffset,proto3" json:"lastKeyOffset,omitempty"`
+	Limit         int32                  `protobuf:"varint,3,opt,name=limit,proto3" json:"limit,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -66,6 +67,13 @@ func (x *Page) GetPage() int32 {
 	return 0
 }
 
+func (x *Page) GetLastKeyOffset() string {
+	if x != nil {
+		return x.LastKeyOffset
+	}
+	return ""
+}
+
 func (x *Page) GetLimit() int32 {
 	if x != nil {
 		return x.Limit
@@ -77,10 +85,11 @@ var File_common_common_proto protoreflect.FileDescriptor
 
 const file_common_common_proto_rawDesc = "" +
 	"\n" +
-	"\x13common/common.proto\"0\n" +
+	"\x13common/common.proto\"V\n" +
 	"\x04Page\x12\x12\n" +
-	"\x04page\x18\x01 \x01(\x05R\x04page\x12\x14\n" +
-	"\x05limit\x18\x02 \x01(\x05R\x05limitB,Z*github.com/meokg456/ecommerce/proto/commonb\x06proto3"
+	"\x04page\x18\x01 \x01(\x05R\x04page\x12$\n" +
+	"\rlastKeyOffset\x18\x02 \x01(\tR\rlastKeyOffset\x12\x14\n" +
+	"\x05limit\x18\x03 \x01(\x05R\x05limitB,Z*github.com/meokg456/ecommerce/proto/commonb\x06proto3"
 
 var (
 	file_common_common_proto_rawDescOnce sync.Once
