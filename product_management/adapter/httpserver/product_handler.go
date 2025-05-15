@@ -43,7 +43,21 @@ func (s *Server) GetProducts(c echo.Context) error {
 		return s.handleError(c, http.StatusInternalServerError, 0)
 	}
 
-	return s.handleSuccessWithPagination(c, http.StatusOK, products, lastKey, request.Limit, 0)
+	var response []model.ProductResponse
+
+	for _, p := range products {
+		response = append(response, model.ProductResponse{
+			Id:           p.Id,
+			Title:        p.Title,
+			Descriptions: p.Descriptions,
+			Category:     p.Category,
+			Images:       p.Images,
+			AdditionInfo: p.AdditionInfo,
+			MerchantId:   p.MerchantId,
+		})
+	}
+
+	return s.handleSuccessWithPagination(c, http.StatusOK, response, lastKey, request.Limit, 0)
 }
 
 func (s *Server) AddProduct(c echo.Context) error {

@@ -10,7 +10,7 @@ var Products = []product.Product{
 		Category:     "Electronics",
 		Images:       []string{"laptop1.jpg", "laptop2.jpg"},
 		AdditionInfo: map[string]any{"brand": "BrandX", "warranty": "2 years"},
-		MerchantId:   1,
+		MerchantId:   2,
 	},
 	{
 		Id:           "2",
@@ -19,7 +19,7 @@ var Products = []product.Product{
 		Category:     "Electronics",
 		Images:       []string{"smartphone1.jpg", "smartphone2.jpg"},
 		AdditionInfo: map[string]any{"brand": "BrandY", "battery": "4000mAh"},
-		MerchantId:   1,
+		MerchantId:   2,
 	},
 	{
 		Id:           "3",

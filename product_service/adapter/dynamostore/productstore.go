@@ -60,10 +60,11 @@ func (p *ProductStore) GetProductsByMerchantId(merchantId int, page common.Page)
 	if err != nil {
 		return nil, "", err
 	}
-
-	lastKey := output.LastEvaluatedKey[dbconst.ProductPK].(*types.AttributeValueMemberS)
-
-	return products, lastKey.Value, nil
+	lastKey := ""
+	if output.LastEvaluatedKey != nil {
+		lastKey = output.LastEvaluatedKey[dbconst.ProductPK].(*types.AttributeValueMemberS).Value
+	}
+	return products, lastKey, nil
 }
 
 func (p *ProductStore) GetProductById(id string) (*product.Product, error) {
