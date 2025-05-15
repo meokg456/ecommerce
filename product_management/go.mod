@@ -2,17 +2,15 @@ module github.com/meokg456/productmanagement
 
 go 1.24.2
 
-replace proto => ../proto
-
 require (
 	github.com/joho/godotenv v1.5.1
 	github.com/kelseyhightower/envconfig v1.4.0
 	github.com/labstack/echo-jwt/v4 v4.3.1
+	github.com/meokg456/ecommerce/proto v0.0.0-20250515031543-35cfa26ed9ca
 	go.uber.org/zap v1.27.0
 	golang.org/x/crypto v0.37.0
 	google.golang.org/grpc v1.72.0
 	google.golang.org/protobuf v1.36.6
-	proto v0.0.0-00010101000000-000000000000
 )
 
 require (

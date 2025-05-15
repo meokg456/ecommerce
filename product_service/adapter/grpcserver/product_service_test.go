@@ -34,6 +34,16 @@ func (productStore *ProductStore) AddProduct(product *product.Product) error {
 	return args.Error(0)
 }
 
+func (productStore *ProductStore) UpdateProduct(product *product.Product) error {
+	args := productStore.Called(product)
+	return args.Error(0)
+}
+
+func (productStore *ProductStore) DeleteProduct(id string) error {
+	args := productStore.Called(id)
+	return args.Error(0)
+}
+
 func TestAddProduct(t *testing.T) {
 	mockStore := new(ProductStore)
 

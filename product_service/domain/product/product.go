@@ -13,6 +13,8 @@ type Storage interface {
 	GetProductById(id string) (*Product, error)
 	AddProducts(products []Product) error
 	AddProduct(product *Product) error
+	UpdateProduct(product *Product) error
+	DeleteProduct(id string) error
 }
 
 func NewProductWithId(id string, title string, descriptions string, category string, images []string, additionInfo map[string]any) Product {

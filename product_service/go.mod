@@ -10,7 +10,6 @@ require (
 	github.com/google/uuid v1.6.0
 	github.com/joho/godotenv v1.5.1
 	github.com/kelseyhightower/envconfig v1.4.0
-	github.com/meokg456/ecommerce/proto v0.0.0-20250514090940-4657b785a86d
 	github.com/meokg456/ecommerce/utilities v0.0.0-20250514090407-8bb695db3163
 	github.com/testcontainers/testcontainers-go/modules/dynamodb v0.37.0
 	go.uber.org/zap v1.27.0
@@ -60,6 +59,7 @@ require (
 	github.com/magiconair/properties v1.8.10 // indirect
 	github.com/mattn/go-colorable v0.1.14 // indirect
 	github.com/mattn/go-isatty v0.0.20 // indirect
+	github.com/meokg456/ecommerce/proto v0.0.0-20250515031543-35cfa26ed9ca // indirect
 	github.com/moby/docker-image-spec v1.3.1 // indirect
 	github.com/moby/go-archive v0.1.0 // indirect
 	github.com/moby/patternmatcher v0.6.0 // indirect

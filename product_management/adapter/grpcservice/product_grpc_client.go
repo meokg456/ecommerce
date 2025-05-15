@@ -1,7 +1,7 @@
 package grpcservice
 
 import (
-	pb "proto/product"
+	pb "github.com/meokg456/ecommerce/proto/product"
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"

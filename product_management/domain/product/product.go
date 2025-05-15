@@ -11,6 +11,8 @@ type Product struct {
 
 type Service interface {
 	AddProduct(product *Product) error
+	UpdateProduct(product *Product) error
+	DeleteProduct(int string) error
 }
 
 func NewProduct(title string, descriptions string, category string, images []string, additionInfo map[string]any) Product {

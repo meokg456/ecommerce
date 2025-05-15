@@ -26,6 +26,16 @@ func (p *ProductService) AddProduct(product *product.Product) error {
 	return args.Error(0)
 }
 
+func (p *ProductService) UpdateProduct(product *product.Product) error {
+	args := p.Called(product)
+	return args.Error(0)
+}
+
+func (p *ProductService) DeleteProduct(id string) error {
+	args := p.Called(id)
+	return args.Error(0)
+}
+
 func TestAddProduct(t *testing.T) {
 
 	server := httpserver.New(new(config.Config))

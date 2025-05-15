@@ -19,6 +19,12 @@ type ProductStore struct {
 	client *dynamodb.Client
 }
 
+func NewProductStore(client *dynamodb.Client) *ProductStore {
+	return &ProductStore{
+		client: client,
+	}
+}
+
 func (p *ProductStore) GetProductById(id string) (*product.Product, error) {
 	data := ProductData{
 		ID: id,
@@ -105,8 +111,9 @@ func (p *ProductStore) AddProduct(product *product.Product) error {
 	}
 
 	_, err = p.client.PutItem(context.Background(), &dynamodb.PutItemInput{
-		Item:      av,
-		TableName: aws.String(dbconst.ProductTableName),
+		Item:                av,
+		TableName:           aws.String(dbconst.ProductTableName),
+		ConditionExpression: aws.String("attribute_not_exists(ID)"),
 	})
 
 	if err != nil {
@@ -116,8 +123,53 @@ func (p *ProductStore) AddProduct(product *product.Product) error {
 	return nil
 }
 
-func NewProductStore(client *dynamodb.Client) *ProductStore {
-	return &ProductStore{
-		client: client,
+func (p *ProductStore) UpdateProduct(product *product.Product) error {
+	data := ProductData{
+		ID:           product.Id,
+		Title:        product.Title,
+		Descriptions: product.Descriptions,
+		Category:     product.Category,
+		Images:       product.Images,
+		AdditionInfo: product.AdditionInfo,
 	}
+
+	av, err := attributevalue.MarshalMap(data)
+	if err != nil {
+		return err
+	}
+
+	_, err = p.client.PutItem(context.Background(), &dynamodb.PutItemInput{
+		Item:                av,
+		TableName:           aws.String(dbconst.ProductTableName),
+		ConditionExpression: aws.String("attribute_exists(ID)"),
+	})
+
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (p *ProductStore) DeleteProduct(id string) error {
+	data := ProductData{
+		ID: id,
+	}
+
+	key, err := attributevalue.Marshal(data.ID)
+	if err != nil {
+		return err
+	}
+
+	_, err = p.client.DeleteItem(context.Background(), &dynamodb.DeleteItemInput{
+		Key:                 map[string]types.AttributeValue{"ID": key},
+		TableName:           aws.String(dbconst.ProductTableName),
+		ConditionExpression: aws.String("attribute_exists(ID)"),
+	})
+
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
