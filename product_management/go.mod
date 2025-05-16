@@ -6,7 +6,7 @@ require (
 	github.com/joho/godotenv v1.5.1
 	github.com/kelseyhightower/envconfig v1.4.0
 	github.com/labstack/echo-jwt/v4 v4.3.1
-	github.com/meokg456/ecommerce/proto v0.0.0-20250515094646-ecb935bf40d3
+	github.com/meokg456/ecommerce/proto v0.0.0-20250516021607-7a96d041948a
 	go.uber.org/zap v1.27.0
 	golang.org/x/crypto v0.37.0
 	google.golang.org/grpc v1.72.0
