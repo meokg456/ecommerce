@@ -43,4 +43,4 @@ docker-build:
 	docker build -t user-service:latest .
 
 docker-db:
-	docker run -d --name product-db  -p 5082:8000 amazon/dynamodb-local:1.19.0
+	docker run -d --name inventory-db  -p 5083:8000 amazon/dynamodb-local:1.19.0
