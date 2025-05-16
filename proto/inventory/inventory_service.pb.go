@@ -11,6 +11,7 @@ import (
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	emptypb "google.golang.org/protobuf/types/known/emptypb"
 	reflect "reflect"
+	sync "sync"
 	unsafe "unsafe"
 )
 
@@ -21,23 +22,95 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+type GetInventoryRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ProductId     string                 `protobuf:"bytes,1,opt,name=productId,proto3" json:"productId,omitempty"`
+	Types         []string               `protobuf:"bytes,2,rep,name=types,proto3" json:"types,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetInventoryRequest) Reset() {
+	*x = GetInventoryRequest{}
+	mi := &file_proto_inventory_inventory_service_proto_msgTypes[0]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetInventoryRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetInventoryRequest) ProtoMessage() {}
+
+func (x *GetInventoryRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_inventory_inventory_service_proto_msgTypes[0]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetInventoryRequest.ProtoReflect.Descriptor instead.
+func (*GetInventoryRequest) Descriptor() ([]byte, []int) {
+	return file_proto_inventory_inventory_service_proto_rawDescGZIP(), []int{0}
+}
+
+func (x *GetInventoryRequest) GetProductId() string {
+	if x != nil {
+		return x.ProductId
+	}
+	return ""
+}
+
+func (x *GetInventoryRequest) GetTypes() []string {
+	if x != nil {
+		return x.Types
+	}
+	return nil
+}
+
 var File_proto_inventory_inventory_service_proto protoreflect.FileDescriptor
 
 const file_proto_inventory_inventory_service_proto_rawDesc = "" +
 	"\n" +
-	"'proto/inventory/inventory_service.proto\x12\tinventory\x1a\x1bgoogle/protobuf/empty.proto\x1a\x1fproto/inventory/inventory.proto2Q\n" +
+	"'proto/inventory/inventory_service.proto\x12\tinventory\x1a\x1bgoogle/protobuf/empty.proto\x1a\x1fproto/inventory/inventory.proto\"I\n" +
+	"\x13GetInventoryRequest\x12\x1c\n" +
+	"\tproductId\x18\x01 \x01(\tR\tproductId\x12\x14\n" +
+	"\x05types\x18\x02 \x03(\tR\x05types2\x97\x01\n" +
 	"\x10InventoryService\x12=\n" +
-	"\rSaveInventory\x12\x14.inventory.Inventory\x1a\x16.google.protobuf.EmptyB/Z-github.com/meokg456/ecommerce/proto/inventoryb\x06proto3"
+	"\rSaveInventory\x12\x14.inventory.Inventory\x1a\x16.google.protobuf.Empty\x12D\n" +
+	"\fGetInventory\x12\x1e.inventory.GetInventoryRequest\x1a\x14.inventory.InventoryB/Z-github.com/meokg456/ecommerce/proto/inventoryb\x06proto3"
 
+var (
+	file_proto_inventory_inventory_service_proto_rawDescOnce sync.Once
+	file_proto_inventory_inventory_service_proto_rawDescData []byte
+)
+
+func file_proto_inventory_inventory_service_proto_rawDescGZIP() []byte {
+	file_proto_inventory_inventory_service_proto_rawDescOnce.Do(func() {
+		file_proto_inventory_inventory_service_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_proto_inventory_inventory_service_proto_rawDesc), len(file_proto_inventory_inventory_service_proto_rawDesc)))
+	})
+	return file_proto_inventory_inventory_service_proto_rawDescData
+}
+
+var file_proto_inventory_inventory_service_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
 var file_proto_inventory_inventory_service_proto_goTypes = []any{
-	(*Inventory)(nil),     // 0: inventory.Inventory
-	(*emptypb.Empty)(nil), // 1: google.protobuf.Empty
+	(*GetInventoryRequest)(nil), // 0: inventory.GetInventoryRequest
+	(*Inventory)(nil),           // 1: inventory.Inventory
+	(*emptypb.Empty)(nil),       // 2: google.protobuf.Empty
 }
 var file_proto_inventory_inventory_service_proto_depIdxs = []int32{
-	0, // 0: inventory.InventoryService.SaveInventory:input_type -> inventory.Inventory
-	1, // 1: inventory.InventoryService.SaveInventory:output_type -> google.protobuf.Empty
-	1, // [1:2] is the sub-list for method output_type
-	0, // [0:1] is the sub-list for method input_type
+	1, // 0: inventory.InventoryService.SaveInventory:input_type -> inventory.Inventory
+	0, // 1: inventory.InventoryService.GetInventory:input_type -> inventory.GetInventoryRequest
+	2, // 2: inventory.InventoryService.SaveInventory:output_type -> google.protobuf.Empty
+	1, // 3: inventory.InventoryService.GetInventory:output_type -> inventory.Inventory
+	2, // [2:4] is the sub-list for method output_type
+	0, // [0:2] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name
 	0, // [0:0] is the sub-list for extension extendee
 	0, // [0:0] is the sub-list for field type_name
@@ -55,12 +128,13 @@ func file_proto_inventory_inventory_service_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_proto_inventory_inventory_service_proto_rawDesc), len(file_proto_inventory_inventory_service_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   0,
+			NumMessages:   1,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
 		GoTypes:           file_proto_inventory_inventory_service_proto_goTypes,
 		DependencyIndexes: file_proto_inventory_inventory_service_proto_depIdxs,
+		MessageInfos:      file_proto_inventory_inventory_service_proto_msgTypes,
 	}.Build()
 	File_proto_inventory_inventory_service_proto = out.File
 	file_proto_inventory_inventory_service_proto_goTypes = nil

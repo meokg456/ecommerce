@@ -9,4 +9,10 @@ import "proto/inventory/inventory.proto";
 
 service InventoryService {
     rpc SaveInventory(Inventory) returns (google.protobuf.Empty);
+    rpc GetInventory(GetInventoryRequest) returns (Inventory);
+}
+
+message GetInventoryRequest {
+    string productId = 1;
+    repeated string types = 2;
 }
