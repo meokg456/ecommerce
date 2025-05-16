@@ -1,6 +1,9 @@
 package postgresstore
 
 import (
+	"strings"
+
+	"github.com/meokg456/productsearchservice/dbconst"
 	"github.com/meokg456/productsearchservice/domain/common"
 	"github.com/meokg456/productsearchservice/domain/product"
 	"gorm.io/gorm"
@@ -17,7 +20,25 @@ func NewProductStore(db *gorm.DB) *ProductStore {
 }
 
 func (p *ProductStore) SearchProducts(keyword string, page common.Page) ([]product.Product, error) {
-	var products []product.Product
+	products := []product.Product{}
 
-	return products, nil
+	var productsData []ProductQuerySchema
+
+	tsquery := strings.Join(strings.Split(keyword, " "), " & ")
+
+	result := p.db.
+		Table(dbconst.ProductTableName).
+		Select("*, ts_rank_cd(tsv, to_tsquery(?)) AS rank", tsquery).
+		Where("tsv @@ to_tsquery(?)", tsquery).
+		Offset((page.Page - 1) * page.Limit).
+		Limit(page.Limit).
+		Order("rank DESC").
+		Find(&productsData)
+
+	for _, data := range productsData {
+		products = append(products, product.NewProductWithId(
+			data.Id, data.Title, data.Descriptions, data.Category, data.Images, data.AdditionInfo, data.MerchantId))
+	}
+
+	return products, result.Error
 }

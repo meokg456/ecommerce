@@ -1,3 +1,3 @@
 package dbconst
 
-const UserTableName = "users"
+const ProductTableName = "products"
