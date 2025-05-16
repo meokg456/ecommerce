@@ -22,23 +22,33 @@ func NewInventoryStore(db *dynamodb.Client) *InventoryStore {
 	}
 }
 
-func (i *InventoryStore) SaveInventory(inv inventory.Inventory) error {
+func (i *InventoryStore) SaveInventory(inv *inventory.Inventory) error {
 	key := inventory.HashInventory(inv.ProductId, inv.Types)
 
-	_, err := i.db.UpdateItem(context.Background(), &dynamodb.UpdateItemInput{
+	output, err := i.db.UpdateItem(context.Background(), &dynamodb.UpdateItemInput{
 		TableName: aws.String(dbconst.InventoryTableName),
 		Key: map[string]types.AttributeValue{
 			dbconst.InventoryPK: &types.AttributeValueMemberS{Value: key},
 		},
-		UpdateExpression: aws.String("ADD Quantity :q"),
+		UpdateExpression:    aws.String("ADD Quantity :q"),
+		ConditionExpression: aws.String("Quantity >= :min"),
 		ExpressionAttributeValues: map[string]types.AttributeValue{
-			":q": &types.AttributeValueMemberN{Value: strconv.Itoa(inv.Quantity)},
+			":q":   &types.AttributeValueMemberN{Value: strconv.Itoa(inv.Quantity)},
+			":min": &types.AttributeValueMemberN{Value: strconv.Itoa(0)},
 		},
+		ReturnValues: types.ReturnValueUpdatedNew,
 	})
 
 	if err != nil {
 		return err
 	}
+
+	quantity, err := strconv.Atoi(output.Attributes[dbconst.InventoryQuantity].(*types.AttributeValueMemberN).Value)
+	if err != nil {
+		return err
+	}
+
+	inv.Quantity = quantity
 
 	return nil
 }

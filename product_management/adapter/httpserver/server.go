@@ -14,6 +14,7 @@ import (
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 
+	"github.com/meokg456/productmanagement/domain/inventory"
 	"github.com/meokg456/productmanagement/domain/product"
 	"github.com/meokg456/productmanagement/domain/user"
 	"github.com/meokg456/productmanagement/pkg/config"
@@ -25,8 +26,9 @@ type Server struct {
 	Config *config.Config
 	Logger *zap.SugaredLogger
 
-	UserStore      user.Storage
-	ProductService product.Service
+	UserStore        user.Storage
+	ProductService   product.Service
+	InventoryService inventory.Service
 }
 
 type CustomValidator struct {

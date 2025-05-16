@@ -119,6 +119,8 @@ github.com/meokg456/ecommerce/proto v0.0.0-20250516033513-75e135893e9b h1:XrqiTl
 github.com/meokg456/ecommerce/proto v0.0.0-20250516033513-75e135893e9b/go.mod h1:sxr/pdZBW843fiQRzWRyXZp3VlHAQO9XSEPTB4gR3kA=
 github.com/meokg456/ecommerce/proto v0.0.0-20250516061302-0370e776df9d h1:2dh5IBCJiWAWDLlqemNOdk03xW+DSHAfwvlUUapVXW0=
 github.com/meokg456/ecommerce/proto v0.0.0-20250516061302-0370e776df9d/go.mod h1:sxr/pdZBW843fiQRzWRyXZp3VlHAQO9XSEPTB4gR3kA=
+github.com/meokg456/ecommerce/proto v0.0.0-20250516073203-410ec58f758f h1:T/vSy6qxfEXNZtcccQatjlGwrcgUnN/12Y3JXQ968WA=
+github.com/meokg456/ecommerce/proto v0.0.0-20250516073203-410ec58f758f/go.mod h1:sxr/pdZBW843fiQRzWRyXZp3VlHAQO9XSEPTB4gR3kA=
 github.com/moby/docker-image-spec v1.3.1 h1:jMKff3w6PgbfSa69GfNg+zN/XLhfXJGnEx3Nl2EsFP0=
 github.com/moby/docker-image-spec v1.3.1/go.mod h1:eKmb5VW8vQEh/BAr2yvVNvuiJuY6UIocYsFu/DxxRpo=
 github.com/moby/go-archive v0.1.0 h1:Kk/5rdW/g+H8NHdJW2gsXyZ7UnzvJNOy6VKJqueWdcQ=

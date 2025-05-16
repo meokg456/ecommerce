@@ -6,7 +6,7 @@ type Inventory struct {
 	Quantity  int
 }
 
-type Storage interface {
+type Service interface {
 	SaveInventory(inventory *Inventory) error
 	GetInventory(productId string, types []string) (*Inventory, error)
 }

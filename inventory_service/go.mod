@@ -8,7 +8,7 @@ require (
 	github.com/aws/aws-sdk-go-v2/service/dynamodb v1.43.1
 	github.com/joho/godotenv v1.5.1
 	github.com/kelseyhightower/envconfig v1.4.0
-	github.com/meokg456/ecommerce/proto v0.0.0-20250516061302-0370e776df9d
+	github.com/meokg456/ecommerce/proto v0.0.0-20250516073203-410ec58f758f
 	github.com/testcontainers/testcontainers-go/modules/dynamodb v0.37.0
 	go.uber.org/zap v1.27.0
 	google.golang.org/grpc v1.72.0

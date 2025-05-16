@@ -7,12 +7,15 @@ import (
 	"github.com/labstack/echo/v4"
 	"github.com/meokg456/productmanagement/adapter/httpserver/model"
 	"github.com/meokg456/productmanagement/domain/common"
+	"github.com/meokg456/productmanagement/domain/inventory"
 	"github.com/meokg456/productmanagement/domain/product"
 	"go.uber.org/zap"
 )
 
 func (s *Server) RegisterProductRoute(router *echo.Group) {
 	router.GET("", s.GetProducts)
+	router.GET("/:id/inventory", s.GetProductInventory)
+	router.POST("/:id/inventory", s.SaveProductInventory)
 	router.POST("", s.AddProduct)
 	router.POST("/:id", s.UpdateProduct)
 	router.DELETE("/:id", s.DeleteProduct)
@@ -21,7 +24,7 @@ func (s *Server) RegisterProductRoute(router *echo.Group) {
 func (s *Server) GetProducts(c echo.Context) error {
 	requestInfo := zap.String("request_id", s.requestID(c))
 
-	var request model.GetProductsByMerchantId
+	var request model.GetProductsByMerchantIdRequest
 	if err := c.Bind(&request); err != nil {
 		s.Logger.Errorw(errors.Join(errors.New("get products: error when parse request body"), err).Error(), requestInfo)
 		return s.handleError(c, http.StatusBadRequest, 0)
@@ -39,7 +42,7 @@ func (s *Server) GetProducts(c echo.Context) error {
 		LastKeyOffset: request.LastKeyOffset,
 	})
 	if err != nil {
-		s.Logger.Errorw(errors.Join(errors.New("add product: error when call grpc to add product"), err).Error(), requestInfo)
+		s.Logger.Errorw(errors.Join(errors.New("get product: error when call grpc to get product"), err).Error(), requestInfo)
 		return s.handleError(c, http.StatusInternalServerError, 0)
 	}
 
@@ -168,4 +171,57 @@ func (s *Server) DeleteProduct(c echo.Context) error {
 	}
 
 	return s.handleSuccess(c, request.Id, http.StatusOK)
+}
+
+func (s *Server) GetProductInventory(c echo.Context) error {
+	requestInfo := zap.String("request_id", s.requestID(c))
+
+	var request model.GetProductInventoryRequest
+	if err := c.Bind(&request); err != nil {
+		s.Logger.Errorw(errors.Join(errors.New("get product inventory: error when parse request body"), err).Error(), requestInfo)
+		return s.handleError(c, http.StatusBadRequest, 0)
+	}
+
+	if err := c.Validate(request); err != nil {
+		s.Logger.Errorw(errors.Join(errors.New("get products inventory: invalid request body"), err).Error(), requestInfo)
+		return s.handleError(c, http.StatusBadRequest, 0)
+	}
+
+	inv, err := s.InventoryService.GetInventory(request.ProductId, request.Types)
+	if err != nil {
+		s.Logger.Errorw(errors.Join(errors.New("get product inventory: error when call grpc to get product inventory"), err).Error(), requestInfo)
+		return s.handleError(c, http.StatusInternalServerError, 0)
+	}
+
+	response := model.GetProductInventoryResponse{
+		ProductId: request.ProductId,
+		Types:     request.Types,
+		Quantity:  inv.Quantity,
+	}
+	return s.handleSuccess(c, response, http.StatusOK)
+}
+
+func (s *Server) SaveProductInventory(c echo.Context) error {
+	requestInfo := zap.String("request_id", s.requestID(c))
+
+	var request model.SaveProductInventoryRequest
+	if err := c.Bind(&request); err != nil {
+		s.Logger.Errorw(errors.Join(errors.New("save product inventory: error when parse request body"), err).Error(), requestInfo)
+		return s.handleError(c, http.StatusBadRequest, 0)
+	}
+
+	if err := c.Validate(request); err != nil {
+		s.Logger.Errorw(errors.Join(errors.New("save product inventory: invalid request body"), err).Error(), requestInfo)
+		return s.handleError(c, http.StatusBadRequest, 0)
+	}
+
+	inv := inventory.NewInventory(request.ProductId, request.Types, request.Quantity)
+
+	err := s.InventoryService.SaveInventory(&inv)
+	if err != nil {
+		s.Logger.Errorw(errors.Join(errors.New("get product inventory: error when call grpc to get product inventory"), err).Error(), requestInfo)
+		return s.handleError(c, http.StatusInternalServerError, 0)
+	}
+
+	return s.handleSuccess(c, inv, http.StatusOK)
 }

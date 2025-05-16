@@ -133,6 +133,10 @@ github.com/meokg456/ecommerce/proto v0.0.0-20250515094646-ecb935bf40d3 h1:IDE6gG
 github.com/meokg456/ecommerce/proto v0.0.0-20250515094646-ecb935bf40d3/go.mod h1:sxr/pdZBW843fiQRzWRyXZp3VlHAQO9XSEPTB4gR3kA=
 github.com/meokg456/ecommerce/proto v0.0.0-20250516021607-7a96d041948a h1:G3cGct93aNN4+7hSle36JMH31o+BQgSVpud0HlRYPwg=
 github.com/meokg456/ecommerce/proto v0.0.0-20250516021607-7a96d041948a/go.mod h1:sxr/pdZBW843fiQRzWRyXZp3VlHAQO9XSEPTB4gR3kA=
+github.com/meokg456/ecommerce/proto v0.0.0-20250516061302-0370e776df9d h1:2dh5IBCJiWAWDLlqemNOdk03xW+DSHAfwvlUUapVXW0=
+github.com/meokg456/ecommerce/proto v0.0.0-20250516061302-0370e776df9d/go.mod h1:sxr/pdZBW843fiQRzWRyXZp3VlHAQO9XSEPTB4gR3kA=
+github.com/meokg456/ecommerce/proto v0.0.0-20250516073203-410ec58f758f h1:T/vSy6qxfEXNZtcccQatjlGwrcgUnN/12Y3JXQ968WA=
+github.com/meokg456/ecommerce/proto v0.0.0-20250516073203-410ec58f758f/go.mod h1:sxr/pdZBW843fiQRzWRyXZp3VlHAQO9XSEPTB4gR3kA=
 github.com/moby/docker-image-spec v1.3.1 h1:jMKff3w6PgbfSa69GfNg+zN/XLhfXJGnEx3Nl2EsFP0=
 github.com/moby/docker-image-spec v1.3.1/go.mod h1:eKmb5VW8vQEh/BAr2yvVNvuiJuY6UIocYsFu/DxxRpo=
 github.com/moby/patternmatcher v0.6.0 h1:GmP9lR19aU5GqSSFko+5pRqHi+Ohk1O69aFiKkVGiPk=

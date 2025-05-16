@@ -12,12 +12,12 @@ import (
 )
 
 type ProductService struct {
-	productClient pb.ProductServiceClient
+	client pb.ProductServiceClient
 }
 
 func NewProductService(productClient pb.ProductServiceClient) *ProductService {
 	return &ProductService{
-		productClient: productClient,
+		client: productClient,
 	}
 }
 
@@ -27,7 +27,7 @@ func (p ProductService) AddProduct(product *product.Product) error {
 		return err
 	}
 
-	result, err := p.productClient.AddProduct(context.Background(), &pb.Product{
+	result, err := p.client.AddProduct(context.Background(), &pb.Product{
 		Title:        product.Title,
 		Descriptions: product.Descriptions,
 		Category:     product.Category,
@@ -50,7 +50,7 @@ func (p ProductService) UpdateProduct(product *product.Product) error {
 		return err
 	}
 
-	_, err = p.productClient.UpdateProduct(context.Background(), &pb.Product{
+	_, err = p.client.UpdateProduct(context.Background(), &pb.Product{
 		Id:           product.Id,
 		Title:        product.Title,
 		Descriptions: product.Descriptions,
@@ -68,7 +68,7 @@ func (p ProductService) UpdateProduct(product *product.Product) error {
 }
 
 func (p ProductService) DeleteProduct(merchantId int, id string) error {
-	_, err := p.productClient.DeleteProduct(context.Background(), &pb.DeleteProductRequest{
+	_, err := p.client.DeleteProduct(context.Background(), &pb.DeleteProductRequest{
 		Id:         id,
 		MerchantId: int64(merchantId),
 	})
@@ -83,7 +83,7 @@ func (p ProductService) DeleteProduct(merchantId int, id string) error {
 func (p ProductService) GetProductsByMerchantId(merchantId int, page common.Page) ([]product.Product, string, error) {
 	var products []product.Product
 
-	response, err := p.productClient.GetProductsByMerchantId(context.Background(), &pb.GetProductsByMerchantIdRequest{
+	response, err := p.client.GetProductsByMerchantId(context.Background(), &pb.GetProductsByMerchantIdRequest{
 		MerchantId: int64(merchantId),
 		Page: &pbcommon.Page{
 			LastKeyOffset: page.LastKeyOffset,

@@ -41,7 +41,7 @@ type DeleteProductRequest struct {
 	Id string `param:"id" validate:"required"`
 }
 
-type GetProductsByMerchantId struct {
+type GetProductsByMerchantIdRequest struct {
 	LastKeyOffset string `json:"lastKeyOffset"`
 	Limit         int    `json:"limit"`
 }
@@ -54,4 +54,21 @@ type ProductResponse struct {
 	Images       []string       `json:"images"`
 	AdditionInfo map[string]any `json:"addition_info"`
 	MerchantId   int            `json:"merchant_id"`
+}
+
+type GetProductInventoryRequest struct {
+	ProductId string   `param:"id"`
+	Types     []string `json:"types"`
+}
+
+type GetProductInventoryResponse struct {
+	ProductId string   `json:"product_id"`
+	Types     []string `json:"types"`
+	Quantity  int      `json:"quantity"`
+}
+
+type SaveProductInventoryRequest struct {
+	ProductId string   `param:"id"`
+	Types     []string `json:"types"`
+	Quantity  int      `json:"quantity"`
 }

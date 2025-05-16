@@ -36,7 +36,8 @@ type Config struct {
 	}
 
 	GrpcService struct {
-		ProductGrpcHost string `envconfig:"PRODUCT_GRPC_HOST"`
+		ProductGrpcHost   string `envconfig:"PRODUCT_GRPC_HOST"`
+		InventoryGrpcHost string `envconfig:"INVENTORY_GRPC_HOST"`
 	}
 }
 
