@@ -11,7 +11,6 @@ import (
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
-	emptypb "google.golang.org/protobuf/types/known/emptypb"
 )
 
 // This is a compile-time assertion to ensure that this generated file
@@ -28,7 +27,7 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type InventoryServiceClient interface {
-	SaveInventory(ctx context.Context, in *Inventory, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	SaveInventory(ctx context.Context, in *Inventory, opts ...grpc.CallOption) (*Inventory, error)
 	GetInventory(ctx context.Context, in *GetInventoryRequest, opts ...grpc.CallOption) (*Inventory, error)
 }
 
@@ -40,9 +39,9 @@ func NewInventoryServiceClient(cc grpc.ClientConnInterface) InventoryServiceClie
 	return &inventoryServiceClient{cc}
 }
 
-func (c *inventoryServiceClient) SaveInventory(ctx context.Context, in *Inventory, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+func (c *inventoryServiceClient) SaveInventory(ctx context.Context, in *Inventory, opts ...grpc.CallOption) (*Inventory, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(emptypb.Empty)
+	out := new(Inventory)
 	err := c.cc.Invoke(ctx, InventoryService_SaveInventory_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -64,7 +63,7 @@ func (c *inventoryServiceClient) GetInventory(ctx context.Context, in *GetInvent
 // All implementations must embed UnimplementedInventoryServiceServer
 // for forward compatibility.
 type InventoryServiceServer interface {
-	SaveInventory(context.Context, *Inventory) (*emptypb.Empty, error)
+	SaveInventory(context.Context, *Inventory) (*Inventory, error)
 	GetInventory(context.Context, *GetInventoryRequest) (*Inventory, error)
 	mustEmbedUnimplementedInventoryServiceServer()
 }
@@ -76,7 +75,7 @@ type InventoryServiceServer interface {
 // pointer dereference when methods are called.
 type UnimplementedInventoryServiceServer struct{}
 
-func (UnimplementedInventoryServiceServer) SaveInventory(context.Context, *Inventory) (*emptypb.Empty, error) {
+func (UnimplementedInventoryServiceServer) SaveInventory(context.Context, *Inventory) (*Inventory, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SaveInventory not implemented")
 }
 func (UnimplementedInventoryServiceServer) GetInventory(context.Context, *GetInventoryRequest) (*Inventory, error) {

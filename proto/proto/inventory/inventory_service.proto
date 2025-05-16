@@ -4,11 +4,10 @@ package inventory;
 
 option go_package = "github.com/meokg456/ecommerce/proto/inventory";
 
-import "google/protobuf/empty.proto";
 import "proto/inventory/inventory.proto";
 
 service InventoryService {
-    rpc SaveInventory(Inventory) returns (google.protobuf.Empty);
+    rpc SaveInventory(Inventory) returns (Inventory);
     rpc GetInventory(GetInventoryRequest) returns (Inventory);
 }
 

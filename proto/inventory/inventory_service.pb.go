@@ -9,7 +9,6 @@ package inventory
 import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
-	emptypb "google.golang.org/protobuf/types/known/emptypb"
 	reflect "reflect"
 	sync "sync"
 	unsafe "unsafe"
@@ -78,12 +77,12 @@ var File_proto_inventory_inventory_service_proto protoreflect.FileDescriptor
 
 const file_proto_inventory_inventory_service_proto_rawDesc = "" +
 	"\n" +
-	"'proto/inventory/inventory_service.proto\x12\tinventory\x1a\x1bgoogle/protobuf/empty.proto\x1a\x1fproto/inventory/inventory.proto\"I\n" +
+	"'proto/inventory/inventory_service.proto\x12\tinventory\x1a\x1fproto/inventory/inventory.proto\"I\n" +
 	"\x13GetInventoryRequest\x12\x1c\n" +
 	"\tproductId\x18\x01 \x01(\tR\tproductId\x12\x14\n" +
-	"\x05types\x18\x02 \x03(\tR\x05types2\x97\x01\n" +
-	"\x10InventoryService\x12=\n" +
-	"\rSaveInventory\x12\x14.inventory.Inventory\x1a\x16.google.protobuf.Empty\x12D\n" +
+	"\x05types\x18\x02 \x03(\tR\x05types2\x95\x01\n" +
+	"\x10InventoryService\x12;\n" +
+	"\rSaveInventory\x12\x14.inventory.Inventory\x1a\x14.inventory.Inventory\x12D\n" +
 	"\fGetInventory\x12\x1e.inventory.GetInventoryRequest\x1a\x14.inventory.InventoryB/Z-github.com/meokg456/ecommerce/proto/inventoryb\x06proto3"
 
 var (
@@ -102,12 +101,11 @@ var file_proto_inventory_inventory_service_proto_msgTypes = make([]protoimpl.Mes
 var file_proto_inventory_inventory_service_proto_goTypes = []any{
 	(*GetInventoryRequest)(nil), // 0: inventory.GetInventoryRequest
 	(*Inventory)(nil),           // 1: inventory.Inventory
-	(*emptypb.Empty)(nil),       // 2: google.protobuf.Empty
 }
 var file_proto_inventory_inventory_service_proto_depIdxs = []int32{
 	1, // 0: inventory.InventoryService.SaveInventory:input_type -> inventory.Inventory
 	0, // 1: inventory.InventoryService.GetInventory:input_type -> inventory.GetInventoryRequest
-	2, // 2: inventory.InventoryService.SaveInventory:output_type -> google.protobuf.Empty
+	1, // 2: inventory.InventoryService.SaveInventory:output_type -> inventory.Inventory
 	1, // 3: inventory.InventoryService.GetInventory:output_type -> inventory.Inventory
 	2, // [2:4] is the sub-list for method output_type
 	0, // [0:2] is the sub-list for method input_type
