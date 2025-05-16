@@ -20,8 +20,8 @@ lint:
 db/migrate:
 	go run ./cmd/migrate
 
-seed-data:
-	go run ./cmd/seeddata
+load-data:
+	go run ./cmd/loaddata
 
 unit-test:
 	@mkdir coverage || true
@@ -39,8 +39,8 @@ gen-proto:
 	--go-grpc_out=adapter \
 	$(shell find ./adapter/grpcserver/proto -name '*.proto')
 
-docker-build:
+docker:
 	docker build -t user-service:latest .
 
 docker-db:
-	docker run -d --name inventory-db  -p 5084:8000 amazon/dynamodb-local:1.19.0
+	docker run -d -p 5433:5432 --name product-search-postgres -e POSTGRES_PASSWORD=root -d postgres:17.5-alpine3.21
