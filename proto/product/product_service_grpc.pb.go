@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.5.1
 // - protoc             v5.29.3
-// source: product/product_service.proto
+// source: proto/product/product_service.proto
 
 package product
 
@@ -19,10 +19,10 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	ProductService_GetProductsByMerchantId_FullMethodName = "/ProductService/GetProductsByMerchantId"
-	ProductService_AddProduct_FullMethodName              = "/ProductService/AddProduct"
-	ProductService_UpdateProduct_FullMethodName           = "/ProductService/UpdateProduct"
-	ProductService_DeleteProduct_FullMethodName           = "/ProductService/DeleteProduct"
+	ProductService_GetProductsByMerchantId_FullMethodName = "/product.ProductService/GetProductsByMerchantId"
+	ProductService_AddProduct_FullMethodName              = "/product.ProductService/AddProduct"
+	ProductService_UpdateProduct_FullMethodName           = "/product.ProductService/UpdateProduct"
+	ProductService_DeleteProduct_FullMethodName           = "/product.ProductService/DeleteProduct"
 )
 
 // ProductServiceClient is the client API for ProductService service.
@@ -210,7 +210,7 @@ func _ProductService_DeleteProduct_Handler(srv interface{}, ctx context.Context,
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var ProductService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "ProductService",
+	ServiceName: "product.ProductService",
 	HandlerType: (*ProductServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
@@ -231,5 +231,5 @@ var ProductService_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "product/product_service.proto",
+	Metadata: "proto/product/product_service.proto",
 }

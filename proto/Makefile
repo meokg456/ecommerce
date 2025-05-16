@@ -1,6 +1,7 @@
 gen-proto:
-	protoc -I=./proto --go_out=. \
-	--go_opt=Mproto/product.proto=github.com/meokg456/ecommerce/proto/product \
- 	--go_opt=Mproto/common.proto=github.com/meokg456/ecommerce/proto/common \
+	protoc --go_out=. \
 	--go-grpc_out=. \
+	--proto_path=. \
+	--go_opt=module=github.com/meokg456/ecommerce/proto \
+	--go-grpc_opt=module=github.com/meokg456/ecommerce/proto \
 	$(shell find ./proto -name '*.proto')

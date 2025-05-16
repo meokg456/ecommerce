@@ -2,7 +2,7 @@
 // versions:
 // 	protoc-gen-go v1.36.6
 // 	protoc        v5.29.3
-// source: product/product.proto
+// source: proto/product/product.proto
 
 package product
 
@@ -37,7 +37,7 @@ type Product struct {
 
 func (x *Product) Reset() {
 	*x = Product{}
-	mi := &file_product_product_proto_msgTypes[0]
+	mi := &file_proto_product_product_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -49,7 +49,7 @@ func (x *Product) String() string {
 func (*Product) ProtoMessage() {}
 
 func (x *Product) ProtoReflect() protoreflect.Message {
-	mi := &file_product_product_proto_msgTypes[0]
+	mi := &file_proto_product_product_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -62,7 +62,7 @@ func (x *Product) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Product.ProtoReflect.Descriptor instead.
 func (*Product) Descriptor() ([]byte, []int) {
-	return file_product_product_proto_rawDescGZIP(), []int{0}
+	return file_proto_product_product_proto_rawDescGZIP(), []int{0}
 }
 
 func (x *Product) GetId() string {
@@ -114,11 +114,11 @@ func (x *Product) GetMerchantId() int64 {
 	return 0
 }
 
-var File_product_product_proto protoreflect.FileDescriptor
+var File_proto_product_product_proto protoreflect.FileDescriptor
 
-const file_product_product_proto_rawDesc = "" +
+const file_proto_product_product_proto_rawDesc = "" +
 	"\n" +
-	"\x15product/product.proto\x1a\x1cgoogle/protobuf/struct.proto\"\xe4\x01\n" +
+	"\x1bproto/product/product.proto\x12\aproduct\x1a\x1cgoogle/protobuf/struct.proto\"\xe4\x01\n" +
 	"\aProduct\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x14\n" +
 	"\x05title\x18\x02 \x01(\tR\x05title\x12\"\n" +
@@ -128,27 +128,27 @@ const file_product_product_proto_rawDesc = "" +
 	"\fadditionInfo\x18\x06 \x01(\v2\x17.google.protobuf.StructR\fadditionInfo\x12\x1e\n" +
 	"\n" +
 	"merchantId\x18\a \x01(\x03R\n" +
-	"merchantIdB\vZ\t./productb\x06proto3"
+	"merchantIdB-Z+github.com/meokg456/ecommerce/proto/productb\x06proto3"
 
 var (
-	file_product_product_proto_rawDescOnce sync.Once
-	file_product_product_proto_rawDescData []byte
+	file_proto_product_product_proto_rawDescOnce sync.Once
+	file_proto_product_product_proto_rawDescData []byte
 )
 
-func file_product_product_proto_rawDescGZIP() []byte {
-	file_product_product_proto_rawDescOnce.Do(func() {
-		file_product_product_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_product_product_proto_rawDesc), len(file_product_product_proto_rawDesc)))
+func file_proto_product_product_proto_rawDescGZIP() []byte {
+	file_proto_product_product_proto_rawDescOnce.Do(func() {
+		file_proto_product_product_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_proto_product_product_proto_rawDesc), len(file_proto_product_product_proto_rawDesc)))
 	})
-	return file_product_product_proto_rawDescData
+	return file_proto_product_product_proto_rawDescData
 }
 
-var file_product_product_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
-var file_product_product_proto_goTypes = []any{
-	(*Product)(nil),         // 0: Product
+var file_proto_product_product_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
+var file_proto_product_product_proto_goTypes = []any{
+	(*Product)(nil),         // 0: product.Product
 	(*structpb.Struct)(nil), // 1: google.protobuf.Struct
 }
-var file_product_product_proto_depIdxs = []int32{
-	1, // 0: Product.additionInfo:type_name -> google.protobuf.Struct
+var file_proto_product_product_proto_depIdxs = []int32{
+	1, // 0: product.Product.additionInfo:type_name -> google.protobuf.Struct
 	1, // [1:1] is the sub-list for method output_type
 	1, // [1:1] is the sub-list for method input_type
 	1, // [1:1] is the sub-list for extension type_name
@@ -156,26 +156,26 @@ var file_product_product_proto_depIdxs = []int32{
 	0, // [0:1] is the sub-list for field type_name
 }
 
-func init() { file_product_product_proto_init() }
-func file_product_product_proto_init() {
-	if File_product_product_proto != nil {
+func init() { file_proto_product_product_proto_init() }
+func file_proto_product_product_proto_init() {
+	if File_proto_product_product_proto != nil {
 		return
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_product_product_proto_rawDesc), len(file_product_product_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_proto_product_product_proto_rawDesc), len(file_proto_product_product_proto_rawDesc)),
 			NumEnums:      0,
 			NumMessages:   1,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
-		GoTypes:           file_product_product_proto_goTypes,
-		DependencyIndexes: file_product_product_proto_depIdxs,
-		MessageInfos:      file_product_product_proto_msgTypes,
+		GoTypes:           file_proto_product_product_proto_goTypes,
+		DependencyIndexes: file_proto_product_product_proto_depIdxs,
+		MessageInfos:      file_proto_product_product_proto_msgTypes,
 	}.Build()
-	File_product_product_proto = out.File
-	file_product_product_proto_goTypes = nil
-	file_product_product_proto_depIdxs = nil
+	File_proto_product_product_proto = out.File
+	file_proto_product_product_proto_goTypes = nil
+	file_proto_product_product_proto_depIdxs = nil
 }
