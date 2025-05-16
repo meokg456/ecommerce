@@ -6,14 +6,11 @@ import (
 	"net"
 	"net/http"
 
-	pb "github.com/meokg456/ecommerce/proto/inventory"
-
 	"github.com/meokg456/inventoryservice/adapter/dynamostore"
 	"github.com/meokg456/inventoryservice/adapter/grpcserver"
 	"github.com/meokg456/inventoryservice/adapter/httpserver"
 	"github.com/meokg456/inventoryservice/pkg/config"
 	"github.com/meokg456/inventoryservice/pkg/logger"
-	"google.golang.org/grpc"
 )
 
 func main() {
@@ -45,12 +42,10 @@ func main() {
 		applog.Fatalf("Failed to listen: %v", err)
 	}
 
-	grpcServer := grpc.NewServer()
-	grpcService := grpcserver.New(config)
-	grpcService.Logger = applog
-	grpcService.InventoryStore = inventoryStore
+	grpcServer := grpcserver.New(config)
+	grpcServer.Logger = applog
+	grpcServer.InventoryStore = inventoryStore
 
-	pb.RegisterInventoryServiceServer(grpcServer, grpcService)
 	go func() {
 		applog.Fatal(grpcServer.Serve(listener))
 	}()
