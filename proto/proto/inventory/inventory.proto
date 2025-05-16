@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package inventory;
+
+option go_package = "github.com/meokg456/ecommerce/proto/inventory";
+
+message Inventory {
+    string productId = 1;
+    repeated string types = 2;
+    int64 quantity = 3;
+}
