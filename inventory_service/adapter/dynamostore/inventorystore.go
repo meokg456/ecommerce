@@ -5,6 +5,7 @@ import (
 	"strconv"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
+	"github.com/aws/aws-sdk-go-v2/feature/dynamodb/attributevalue"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb/types"
 	"github.com/meokg456/inventoryservice/dbconst"
@@ -22,13 +23,16 @@ func NewInventoryStore(db *dynamodb.Client) *InventoryStore {
 }
 
 func (i *InventoryStore) SaveInventory(inv inventory.Inventory) error {
-	key := inventory.HashInventory(inv)
+	key := inventory.HashInventory(inv.ProductId, inv.Types)
 
-	_, err := i.db.PutItem(context.Background(), &dynamodb.PutItemInput{
+	_, err := i.db.UpdateItem(context.Background(), &dynamodb.UpdateItemInput{
 		TableName: aws.String(dbconst.InventoryTableName),
-		Item: map[string]types.AttributeValue{
-			dbconst.InventoryPK:       &types.AttributeValueMemberS{Value: key},
-			dbconst.InventoryQuantity: &types.AttributeValueMemberN{Value: strconv.Itoa(inv.Quantity)},
+		Key: map[string]types.AttributeValue{
+			dbconst.InventoryPK: &types.AttributeValueMemberS{Value: key},
+		},
+		UpdateExpression: aws.String("ADD Quantity :q"),
+		ExpressionAttributeValues: map[string]types.AttributeValue{
+			":q": &types.AttributeValueMemberN{Value: strconv.Itoa(inv.Quantity)},
 		},
 	})
 
@@ -37,4 +41,27 @@ func (i *InventoryStore) SaveInventory(inv inventory.Inventory) error {
 	}
 
 	return nil
+}
+
+func (i *InventoryStore) GetInventory(productId string, t []string) (*inventory.Inventory, error) {
+	key := inventory.HashInventory(productId, t)
+
+	output, err := i.db.GetItem(context.Background(), &dynamodb.GetItemInput{
+		TableName: aws.String(dbconst.InventoryTableName),
+		Key: map[string]types.AttributeValue{
+			dbconst.InventoryPK: &types.AttributeValueMemberS{Value: key},
+		},
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	var data InventoryData
+
+	err = attributevalue.UnmarshalMap(output.Item, &data)
+
+	inv := inventory.NewInventory(productId, t, data.Quantity)
+
+	return &inv, nil
 }
