@@ -1,0 +1,25 @@
+package kafkaservice
+
+import (
+	"github.com/meokg456/productservice/pkg/config"
+	"github.com/segmentio/kafka-go"
+)
+
+type Options struct {
+	Hosts []string
+	Topic string
+}
+
+func ParseFromConfig(cfg *config.Config) Options {
+	return Options{
+		Hosts: []string{cfg.MessageBroker.ProductBrokerHost},
+		Topic: cfg.MessageBroker.ProductTopic,
+	}
+}
+
+func NewWriter(options Options) *kafka.Writer {
+	return &kafka.Writer{
+		Addr:  kafka.TCP(options.Hosts...),
+		Topic: options.Topic,
+	}
+}

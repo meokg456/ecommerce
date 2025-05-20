@@ -21,6 +21,10 @@ type Storage interface {
 	DeleteProduct(merchantId int, id string) error
 }
 
+type Broker interface {
+	SendProductChange(p Product) error
+}
+
 func NewProductWithId(id string, title string, descriptions string, category string, images []string, additionInfo map[string]any) Product {
 	return Product{
 		Id:           id,

@@ -23,6 +23,9 @@ db/migrate:
 seed-data:
 	go run ./cmd/seeddata
 
+kafka:
+	go run ./cmd/kafka
+
 unit-test:
 	@mkdir coverage || true
 	-go test -p 20 -race -v -coverprofile=coverage/coverage.txt.tmp -count=1 ./adapter/...
@@ -44,3 +47,20 @@ docker-build:
 
 docker-db:
 	docker run -d --name product-db  -p 5082:8000 amazon/dynamodb-local:1.19.0
+
+docker-kafka:
+	docker run -d -p 9082:9092 --name product-broker \
+  	-e KAFKA_NODE_ID=1 \
+  	-e KAFKA_PROCESS_ROLES=broker,controller \
+  	-e KAFKA_LISTENERS=INTERNAL://0.0.0.0:9092,EXTERNAL://0.0.0.0:9082,CONTROLLER://localhost:9093 \
+  	-e KAFKA_ADVERTISED_LISTENERS=EXTERNAL://localhost:9092,INTERNAL://localhost:9082 \
+  	-e KAFKA_CONTROLLER_LISTENER_NAMES=CONTROLLER \
+  	-e KAFKA_LISTENER_SECURITY_PROTOCOL_MAP=CONTROLLER:PLAINTEXT,INTERNAL:PLAINTEXT,EXTERNAL:PLAINTEXT \
+  	-e KAFKA_CONTROLLER_QUORUM_VOTERS=1@localhost:9093 \
+	-e KAFKA_INTER_BROKER_LISTENER_NAME=INTERNAL \
+	-e KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS=0 \
+	-e KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=1 \
+	apache/kafka:4.0.0
+
+docker-rm-kafka:
+	docker container rm product-broker -f

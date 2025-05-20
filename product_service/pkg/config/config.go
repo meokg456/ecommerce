@@ -15,6 +15,11 @@ type Config struct {
 		Region   string `envconfig:"AWS_REGION"`
 		Endpoint string `envconfig:"AWS_ENDPOINT"`
 	}
+
+	MessageBroker struct {
+		ProductBrokerHost string `envconfig:"PRODUCT_BROKER_HOST"`
+		ProductTopic      string `envconfig:"PRODUCT_TOPIC"`
+	}
 }
 
 func LoadConfig() (*Config, error) {

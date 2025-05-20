@@ -1,12 +1,13 @@
 package postgresstore
 
 import (
+	"database/sql"
+	"time"
+
 	"github.com/lib/pq"
-	"gorm.io/gorm"
 )
 
 type ProductQuerySchema struct {
-	gorm.Model
 	Id           string
 	Title        string
 	Descriptions string
@@ -14,4 +15,7 @@ type ProductQuerySchema struct {
 	Images       pq.StringArray `gorm:"type:text[]"`
 	AdditionInfo map[string]any `gorm:"serializer:json"`
 	MerchantId   int
+	CreatedAt    time.Time
+	UpdatedAt    time.Time
+	DeletedAt    sql.NullTime
 }

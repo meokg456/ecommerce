@@ -57,9 +57,16 @@ func (s *Server) AddProduct(ctx context.Context, request *pb.Product) (*pb.Produ
 	err := s.ProductStore.AddProduct(&p)
 
 	if err != nil {
-		s.Logger.Errorf("add product grpc: failed to add product %v", request)
+		s.Logger.Errorf("add product grpc: failed to add product %v", err)
 		return nil, err
 	}
+
+	go func() {
+		err := s.ProductBroker.SendProductChange(p)
+		if err != nil {
+			s.Logger.Errorf("add product grpc: failed to send messages product broker %v", err)
+		}
+	}()
 
 	return &pb.Product{
 		Id:           p.Id,
@@ -90,6 +97,13 @@ func (s *Server) UpdateProduct(ctx context.Context, request *pb.Product) (*pb.Pr
 		s.Logger.Errorf("update product grpc: failed to update product %v", request)
 		return nil, err
 	}
+
+	go func() {
+		err := s.ProductBroker.SendProductChange(p)
+		if err != nil {
+			s.Logger.Errorf("add product grpc: failed to send messages product broker %v", err)
+		}
+	}()
 
 	return &pb.Product{
 		Id:           p.Id,

@@ -24,7 +24,8 @@ type Server struct {
 	Config config.Config
 	Logger *zap.SugaredLogger
 
-	ProductStore product.Storage
+	ProductStore  product.Storage
+	ProductBroker product.Broker
 }
 
 func New(config *config.Config) *Server {

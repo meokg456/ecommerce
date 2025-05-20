@@ -42,3 +42,18 @@ func (p *ProductStore) SearchProducts(keyword string, page common.Page) ([]produ
 
 	return products, result.Error
 }
+
+func (p *ProductStore) SaveProduct(pro product.Product) error {
+	data := ProductQuerySchema{
+		Id:           pro.Id,
+		Title:        pro.Title,
+		Descriptions: pro.Descriptions,
+		Category:     pro.Category,
+		Images:       pro.Images,
+		AdditionInfo: pro.AdditionInfo,
+		MerchantId:   pro.MerchantId,
+	}
+	result := p.db.Table(dbconst.ProductTableName).Save(&data)
+
+	return result.Error
+}

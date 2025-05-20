@@ -1,13 +1,13 @@
 
 -- +migrate Up
 CREATE TABLE "products" (
-  "id" serial PRIMARY KEY,
+  "id" varchar(255) PRIMARY KEY,
   "title" varchar(255) NOT NULL,
   "descriptions" text,
   "category" varchar(255),
   "images" text[],
-  "additionInfo" json,
-  "merchantId" integer,
+  "addition_info" json,
+  "merchant_id" integer,
   "created_at" timestamp DEFAULT (now()),
   "updated_at" timestamp DEFAULT (now()),
   "deleted_at" timestamp

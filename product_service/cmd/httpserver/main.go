@@ -9,6 +9,7 @@ import (
 	"github.com/meokg456/productservice/adapter/dynamostore"
 	"github.com/meokg456/productservice/adapter/grpcserver"
 	"github.com/meokg456/productservice/adapter/httpserver"
+	"github.com/meokg456/productservice/adapter/kafkaservice"
 	"github.com/meokg456/productservice/pkg/config"
 	"github.com/meokg456/productservice/pkg/logger"
 )
@@ -31,6 +32,10 @@ func main() {
 		applog.Fatalf("Cannot connect to db %v", err)
 	}
 
+	productBrokerOptions := kafkaservice.ParseFromConfig(config)
+	kafkaWriter := kafkaservice.NewWriter(productBrokerOptions)
+	productBroker := kafkaservice.NewProductBroker(kafkaWriter)
+
 	server := httpserver.New(config)
 
 	productStore := dynamostore.NewProductStore(db)
@@ -46,8 +51,10 @@ func main() {
 	grpcServer := grpcserver.New(config)
 	grpcServer.Logger = applog
 	grpcServer.ProductStore = productStore
+	grpcServer.ProductBroker = productBroker
 
 	go func() {
+		applog.Info("Grpc server started!")
 		applog.Fatal(grpcServer.Serve(listener))
 	}()
 

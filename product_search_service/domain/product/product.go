@@ -14,6 +14,7 @@ type Product struct {
 
 type Storage interface {
 	SearchProducts(keyword string, page common.Page) ([]Product, error)
+	SaveProduct(p Product) error
 }
 
 func NewProductWithId(id string, title string, descriptions string, category string, images []string, additionInfo map[string]any, merchantId int) Product {

@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/meokg456/productsearchservice/adapter/cronworker"
 	"github.com/meokg456/productsearchservice/adapter/httpserver"
 	"github.com/meokg456/productsearchservice/adapter/postgresstore"
 	"github.com/meokg456/productsearchservice/pkg/config"
@@ -35,6 +36,14 @@ func main() {
 
 	server.Logger = applog
 	server.ProductStore = productStore
+
+	cronWorker := cronworker.New(config)
+
+	cronWorker.ProductStore = productStore
+
+	cronWorker.Logger = applog
+
+	cronWorker.Start()
 
 	applog.Info("Server started!")
 	applog.Fatal(http.ListenAndServe(fmt.Sprintf(":%d", config.Port), server))
