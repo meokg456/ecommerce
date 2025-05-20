@@ -17,7 +17,7 @@ func (c *CronWorker) UpdateProduct() {
 
 	now := time.Now()
 	for {
-		ctx, cancel := context.WithTimeout(context.Background(), time.Second*10)
+		ctx, cancel := context.WithTimeout(context.Background(), time.Second*120)
 		defer cancel()
 		m, err := c.ProductReader.FetchMessage(ctx)
 		if err != nil {
