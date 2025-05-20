@@ -3,7 +3,6 @@ package cronworker
 import (
 	"context"
 	"encoding/json"
-	"fmt"
 	"time"
 
 	"github.com/meokg456/productsearchservice/adapter/cronworker/model"
@@ -16,26 +15,24 @@ func (c *CronWorker) AddProductJob() {
 
 func (c *CronWorker) UpdateProduct() {
 
-	ctx, cancel := context.WithTimeout(context.Background(), time.Second*10)
 	now := time.Now()
 	for {
+		ctx, cancel := context.WithTimeout(context.Background(), time.Second*10)
+		defer cancel()
 		m, err := c.ProductReader.FetchMessage(ctx)
-		fmt.Println(string(m.Value))
 		if err != nil {
 			c.Logger.Errorf("cron update product: failed to read messages product broker %v", err)
-			cancel()
 			break
 		}
 
 		if m.Time.After(now) {
-			cancel()
 			break
 		}
 
 		var pro model.ProductMessage
 		err = json.Unmarshal(m.Value, &pro)
 		if err != nil {
-			c.ProductReader.CommitMessages(ctx, m)
+			c.ProductReader.CommitMessages(context.Background(), m)
 			c.Logger.Errorf("cron update product: failed to unmarshal product value of %v, error: %v", m.Value, err)
 			continue
 		}
@@ -53,7 +50,7 @@ func (c *CronWorker) UpdateProduct() {
 			c.Logger.Errorf("cron update product: failed to save product %v, error: %v", pro, err)
 			continue
 		}
-		err = c.ProductReader.CommitMessages(ctx, m)
+		err = c.ProductReader.CommitMessages(context.Background(), m)
 		if err != nil {
 			c.Logger.Errorf("cron update product: failed to commit message %v", err)
 		}

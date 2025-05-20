@@ -43,7 +43,7 @@ func main() {
 
 	cronWorker.Logger = applog
 
-	cronWorker.Start()
+	cronWorker.UpdateProduct()
 
 	applog.Info("Server started!")
 	applog.Fatal(http.ListenAndServe(fmt.Sprintf(":%d", config.Port), server))

@@ -23,9 +23,10 @@ func New(cfg *config.Config) *CronWorker {
 	c := cron.New()
 
 	productReader := kafka.NewReader(kafka.ReaderConfig{
-		Brokers: []string{cfg.MessageBroker.ProductBrokerHost},
-		Topic:   cfg.MessageBroker.ProductTopic,
-		GroupID: cfg.MessageBroker.ProductGroupId,
+		Brokers:  []string{cfg.MessageBroker.ProductBrokerHost},
+		Topic:    cfg.MessageBroker.ProductTopic,
+		GroupID:  cfg.MessageBroker.ProductGroupId,
+		MaxBytes: 10e6,
 	})
 
 	worker := &CronWorker{
