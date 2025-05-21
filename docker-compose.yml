@@ -3,8 +3,6 @@ services:
     image: postgres:17-alpine3.21
     env_file:
       - ./api_gateway/.env
-    ports:
-      - "5532:5432"
     volumes:
       - kong_db_data:/var/lib/postgresql/data
     networks:
@@ -42,12 +40,11 @@ services:
 
   user_service:
     image: user-service:latest
-    ports:
-      - "8081:8081"
     env_file:
       - ./user_service/.env
     environment:
-      - DB_HOST=user-db
+      DB_HOST: user-db
+      DB_PORT: 5432
     depends_on:
       - user-db
     networks:
@@ -57,12 +54,160 @@ services:
   user-db:
     image: postgres:17-alpine3.21
     env_file: "./user_service/.env"
-    ports:
-      - "5433:5432"
     volumes:
       - user_db_data:/var/lib/postgresql/data
     networks:
       - user-net
+
+  inventory_service:
+    image: inventory-service:latest
+    env_file:
+      - ./inventory_service/.env
+    environment:
+      AWS_ENDPOINT: http://inventory-db:8000
+      AWS_ACCESS_KEY_ID: 'DUMMYIDEXAMPLE'
+      AWS_SECRET_ACCESS_KEY: 'DUMMYEXAMPLEKEY'
+    depends_on:
+      - inventory-db
+    networks:
+      - inventory-net
+      - ecommerce-net
+
+  inventory-db:
+    image: amazon/dynamodb-local:1.19.0
+    command: "-jar DynamoDBLocal.jar -sharedDb"
+    env_file: "./inventory_service/.env"
+    volumes:
+      - inventory_db_data:/home/dynamodblocal/
+    networks:
+      - inventory-net
+    working_dir: /home/dynamodblocal
+  
+  product_service:
+    image: product-service:latest
+    env_file:
+      - ./product_service/.env
+    environment:
+      AWS_ENDPOINT: http://product-db:8000
+      AWS_ACCESS_KEY_ID: 'DUMMYIDEXAMPLE'
+      AWS_SECRET_ACCESS_KEY: 'DUMMYEXAMPLEKEY'
+      PRODUCT_BROKER_HOST: product-broker:9092
+    depends_on:
+      - product-db
+      - product-broker
+    networks:
+      - product-net
+      - product-cqrs-net
+      - ecommerce-net
+
+  product-db:
+    image: amazon/dynamodb-local:1.19.0
+    command: "-jar DynamoDBLocal.jar -sharedDb"
+    env_file: "./product_service/.env"
+    volumes:
+      - product_db_data:/home/dynamodblocal/
+    networks:
+      - product-net
+    working_dir: /home/dynamodblocal
+  
+  product-broker:
+    image: apache/kafka:latest
+    environment:
+      KAFKA_PROCESS_ROLES: broker,controller
+      KAFKA_NODE_ID: 1
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092,CONTROLLER://0.0.0.0:9093
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://product-broker:9092
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      KAFKA_CONTROLLER_QUORUM_VOTERS: 1@product-broker:9093
+      KAFKA_LOG_DIRS: /var/lib/kafka/data
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: 'true'
+    volumes:
+      - product_broker_data:/var/lib/kafka/data
+    networks:
+      - product-cqrs-net
+
+  product_search_service:
+    image: product-search-service:latest
+    env_file:
+      - ./product_search_service/.env
+    environment:
+      DB_HOST: product-search-db
+      DB_PORT: 5432
+      PRODUCT_BROKER_HOST: product-broker:9092
+    depends_on:
+      - product-search-db
+      - product-broker
+    networks:
+      - product-search-net
+      - ecommerce-net
+      - product-cqrs-net
+
+  product-search-db:
+    image: postgres:17-alpine3.21
+    env_file: "./product_search_service/.env"
+    volumes:
+      - product_search_db_data:/var/lib/postgresql/data
+    networks:
+      - product-search-net
+
+  product_management:
+    image: product-management:latest
+    ports:
+      - "7081:7081"
+    env_file:
+      - ./product_management/.env
+    environment:
+      DB_HOST: product-management-db
+      DB_PORT: 5432
+      PRODUCT_GRPC_HOST: product_service:58082
+      INVENTORY_GRPC_HOST: product_service:58083
+    depends_on:
+      - product-management-db
+    networks:
+      - product-management-net
+      - ecommerce-net
+
+  product-management-db:
+    image: postgres:17-alpine3.21
+    env_file: "./product_management/.env"
+    volumes:
+      - product_management_db_data:/var/lib/postgresql/data
+    networks:
+      - product-management-net
+
+  order-broker:
+    image: apache/kafka:latest
+    environment:
+      KAFKA_PROCESS_ROLES: broker,controller
+      KAFKA_NODE_ID: 1
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092,CONTROLLER://0.0.0.0:9093
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://product-broker:9092
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      KAFKA_CONTROLLER_QUORUM_VOTERS: 1@product-broker:9093
+      KAFKA_LOG_DIRS: /var/lib/kafka/data
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: 'true'
+    volumes:
+      - order_broker_data:/var/lib/kafka/data
+    networks:
+      - order-net
+
+  order_service:
+    image: order-service:latest
+    env_file:
+      - ./order_service/.env
+    environment:
+      ORDER_BROKER_HOST: order-broker:9092
+    depends_on:
+      - order-broker
+    networks:
+      - order-net
+      - ecommerce-net
 
 networks:
   kong-net:
@@ -74,7 +219,31 @@ networks:
   user-net:
     name: user-net
     driver: bridge
-
+  inventory-net:
+    name: inventory-net
+    driver: bridge
+  product-net:
+    name: product-net
+    driver: bridge
+  product-cqrs-net:
+    name: product-cqrs-net
+    driver: bridge
+  product-search-net:
+    name: product-search-net
+    driver: bridge
+  product-management-net:
+    name: product-management-net
+    driver: bridge
+  order-net:
+    name: order-net
+    driver: bridge
+    
 volumes:
   kong_db_data:
   user_db_data:
+  inventory_db_data:
+  product_db_data:
+  product_broker_data:
+  product_search_db_data:
+  product_management_db_data:
+  order_broker_data:

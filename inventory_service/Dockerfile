@@ -24,7 +24,7 @@ WORKDIR /app
 
 COPY --from=builder /main .
 COPY --from=builder /migrate .
-COPY --from=builder /app/migrations .
+
 COPY .env .
 
 # Expose the application port

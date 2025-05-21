@@ -15,7 +15,7 @@ COPY . .
 
 # Build the Go application
 RUN go build -o /main ./cmd/httpserver/main.go
-RUN go build -o /migrate ./cmd/migrate/main.go
+RUN go build -o /kafka ./cmd/kafka/main.go
 
 # Run stage
 FROM alpine:3.21
@@ -23,12 +23,11 @@ FROM alpine:3.21
 WORKDIR /app
 
 COPY --from=builder /main .
-COPY --from=builder /migrate .
-COPY --from=builder /app/migrations .
+COPY --from=builder /kafka .
 COPY .env .
 
 # Expose the application port
-EXPOSE 8082
+EXPOSE 8085
 
 # Command to run the application
 CMD ["/app/main"]

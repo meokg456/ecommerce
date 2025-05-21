@@ -28,7 +28,7 @@ COPY --from=builder /app/migrations .
 COPY .env .
 
 # Expose the application port
-EXPOSE 8081
+EXPOSE 7081
 
 # Command to run the application
 CMD ["/app/main"]

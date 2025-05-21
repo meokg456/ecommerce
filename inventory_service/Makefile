@@ -40,7 +40,7 @@ gen-proto:
 	$(shell find ./adapter/grpcserver/proto -name '*.proto')
 
 docker-build:
-	docker build -t user-service:latest .
+	docker build -t inventory-service:latest .
 
 docker-db:
 	docker run -d --name inventory-db  -p 5084:8000 amazon/dynamodb-local:1.19.0

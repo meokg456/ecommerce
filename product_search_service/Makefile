@@ -40,7 +40,7 @@ gen-proto:
 	$(shell find ./adapter/grpcserver/proto -name '*.proto')
 
 docker:
-	docker build -t user-service:latest .
+	docker build -t product-search-service:latest .
 
 docker-db:
 	docker run -d -p 5433:5432 --name product-search-postgres -e POSTGRES_PASSWORD=root -d postgres:17.5-alpine3.21
