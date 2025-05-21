@@ -1,11 +1,16 @@
 package kafkaservice
 
-type ProductMessage struct {
-	Id           string         `json:"id"`
-	Title        string         `json:"title"`
-	Descriptions string         `json:"descriptions"`
-	Category     string         `json:"category"`
-	Images       []string       `json:"images"`
-	AdditionInfo map[string]any `json:"addition_info"`
-	MerchantId   int            `json:"merchant_id"`
+type OrderMessage struct {
+	Id      string        `json:"id"`
+	UserId  int           `json:"user_id"`
+	Status  string        `json:"status"`
+	Payment string        `json:"payment"`
+	Paid    bool          `json:"paid"`
+	Items   []ItemMessage `json:"items"`
+}
+
+type ItemMessage struct {
+	ProductId string   `json:"product_id"`
+	Types     []string `json:"types"`
+	Quantity  int      `json:"quantity"`
 }

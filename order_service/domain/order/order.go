@@ -1,9 +1,7 @@
 package order
 
-type Payment string
-
 type Order struct {
-	Id      int
+	Id      string
 	UserId  int
 	Status  Status
 	Payment Payment
@@ -12,5 +10,5 @@ type Order struct {
 }
 
 type Broker interface {
-	SaveOrder(order Order) error
+	SaveOrder(order *Order) error
 }

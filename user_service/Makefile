@@ -41,3 +41,6 @@ gen-proto:
 
 docker:
 	docker build -t user-service:latest .
+
+docker-db:
+	docker run -p 5431:5432 --name user-db -e POSTGRES_PASSWORD=root -d postgres:17.5-alpine3.21
