@@ -39,7 +39,7 @@ gen-proto:
 	--go-grpc_out=adapter \
 	$(shell find ./adapter/grpcserver/proto -name '*.proto')
 
-docker:
+docker-build:
 	docker build -t product-search-service:latest .
 
 docker-db:

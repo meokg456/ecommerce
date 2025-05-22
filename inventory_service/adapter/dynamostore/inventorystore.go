@@ -31,10 +31,11 @@ func (i *InventoryStore) SaveInventory(inv *inventory.Inventory) error {
 			dbconst.InventoryPK: &types.AttributeValueMemberS{Value: key},
 		},
 		UpdateExpression:    aws.String("ADD Quantity :q"),
-		ConditionExpression: aws.String("Quantity >= :min"),
+		ConditionExpression: aws.String("(attribute_not_exists(Quantity) AND :q >= :zero) OR Quantity >= :min"),
 		ExpressionAttributeValues: map[string]types.AttributeValue{
-			":q":   &types.AttributeValueMemberN{Value: strconv.Itoa(inv.Quantity)},
-			":min": &types.AttributeValueMemberN{Value: strconv.Itoa(0)},
+			":q":    &types.AttributeValueMemberN{Value: strconv.Itoa(inv.Quantity)},
+			":min":  &types.AttributeValueMemberN{Value: strconv.Itoa(-inv.Quantity)},
+			":zero": &types.AttributeValueMemberN{Value: strconv.Itoa(0)},
 		},
 		ReturnValues: types.ReturnValueUpdatedNew,
 	})
@@ -70,6 +71,9 @@ func (i *InventoryStore) GetInventory(productId string, t []string) (*inventory.
 	var data InventoryData
 
 	err = attributevalue.UnmarshalMap(output.Item, &data)
+	if err != nil {
+		return nil, err
+	}
 
 	inv := inventory.NewInventory(productId, t, data.Quantity)
 

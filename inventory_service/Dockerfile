@@ -28,7 +28,7 @@ COPY --from=builder /migrate .
 COPY .env .
 
 # Expose the application port
-EXPOSE 8082
+EXPOSE 8080
 
 # Command to run the application
 CMD ["/app/main"]

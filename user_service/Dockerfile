@@ -24,11 +24,11 @@ WORKDIR /app
 
 COPY --from=builder /main .
 COPY --from=builder /migrate .
-COPY --from=builder /app/migrations .
+COPY --from=builder /app/migrations ./migrations
 COPY .env .
 
 # Expose the application port
-EXPOSE 8081
+EXPOSE 8080
 
 # Command to run the application
 CMD ["/app/main"]
