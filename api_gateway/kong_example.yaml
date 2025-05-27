@@ -1,9 +1,101 @@
 _format_version: "3.0"
 _transform: true
 
+upstreams:
+  - name: user_upstream
+    algorithm: round-robin
+    healthchecks:
+      active:
+        http_path: "/healthz"
+        healthy:
+          interval: 10
+          successes: 3
+        unhealthy:
+          interval: 5
+          tcp_failures: 2
+    targets:
+      - target: e-commerce-user-service-1:8080
+        weight: 100
+      - target: e-commerce-user-service-2:8080
+        weight: 100
+      - target: e-commerce-user-service-3:8080
+        weight: 100
+  - name: inventory_upstream
+    algorithm: round-robin
+    healthchecks:
+      active:
+        http_path: "/healthz"
+        healthy:
+          interval: 10
+          successes: 3
+        unhealthy:
+          interval: 5
+          tcp_failures: 2
+    targets:
+      - target: e-commerce-inventory-service-1:8080
+        weight: 100
+      - target: e-commerce-inventory-service-2:8080
+        weight: 100
+      - target: e-commerce-inventory-service-3:8080
+        weight: 100
+  - name: product_upstream
+    algorithm: round-robin
+    healthchecks:
+      active:
+        http_path: "/healthz"
+        healthy:
+          interval: 10
+          successes: 3
+        unhealthy:
+          interval: 5
+          tcp_failures: 2
+    targets:
+      - target: e-commerce-product-service-1:8080
+        weight: 100
+      - target: e-commerce-product-service-2:8080
+        weight: 100
+      - target: e-commerce-product-service-3:8080
+        weight: 100
+  - name: product_search_upstream
+    algorithm: round-robin
+    healthchecks:
+      active:
+        http_path: "/healthz"
+        healthy:
+          interval: 10
+          successes: 3
+        unhealthy:
+          interval: 5
+          tcp_failures: 2
+    targets:
+      - target: e-commerce-product-search-service-1:8080
+        weight: 100
+      - target: e-commerce-product-search-service-2:8080
+        weight: 100
+      - target: e-commerce-product-search-service-3:8080
+        weight: 100
+  - name: order_upstream
+    algorithm: round-robin
+    healthchecks:
+      active:
+        http_path: "/healthz"
+        healthy:
+          interval: 10
+          successes: 3
+        unhealthy:
+          interval: 5
+          tcp_failures: 2
+    targets:
+      - target: e-commerce-order-service-1:8080
+        weight: 100
+      - target: e-commerce-order-service-2:8080
+        weight: 100
+      - target: e-commerce-order-service-3:8080
+        weight: 100
+
 services:
-  - name: user-service
-    url: http://host.docker.internal:8081
+  - name: user_service
+    url: http://user_upstream
     routes:
       - name: user-route
         paths:
@@ -15,6 +107,37 @@ services:
           - /api/register
         strip_path: false
 
+  - name: inventory_service
+    url: http://inventory_upstream
+    routes:
+      - name: inventory-route
+        paths:
+          - /api/inventory
+        strip_path: false
+
+  - name: product_service
+    url: http://product_upstream
+    routes:
+      - name: product-route
+        paths:
+          - /api/products
+        strip_path: false
+
+  - name: product_search_service
+    url: http://product_search_upstream
+    routes:
+      - name: product-search-route
+        paths:
+          - /api/products/search
+        strip_path: false
+
+  - name: order_service
+    url: http://order_upstream
+    routes:
+      - name: order-route
+        paths:
+          - /api/orders
+        strip_path: false
 
 plugins:
   - name: jwt
@@ -25,8 +148,11 @@ plugins:
         - exp
       secret_is_base64: false
       anonymous: anonymous
-
+  
   - name: jwt
+    protocols:
+    - http
+    - https
     config:
       key_claim_name: iss
       claims_to_verify: 
@@ -35,16 +161,15 @@ plugins:
 
   - name: rate-limiting
     config:
-      minute: 1
+      second: 10
   - name: prometheus
     config:
       per_consumer: true
 
 consumers:
 - username: anonymous
-- username: user
+- username: meokg456
   jwt_secrets:
-  - key: key
+  - key: meokg456
     algorithm: HS256
-    secret: secret
-
+    secret: 

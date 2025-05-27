@@ -1,50 +1,51 @@
 _format_version: "3.0"
 _transform: true
 
-services:
-  - name: user-service
-    url: http://host.docker.internal:8081
-    routes:
-      - name: user-route
-        paths:
-          - /api/users
-        strip_path: false
-      - name: authentication-route
-        paths:
-          - /api/login
-          - /api/register
-        strip_path: false
+upstreams:
+  - name: inventory_grpc_upstream
+    algorithm: round-robin
+    targets:
+      - target: e-commerce-inventory-service-1:58080
+        weight: 100
+      - target: e-commerce-inventory-service-2:58080
+        weight: 100
+      - target: e-commerce-inventory-service-3:58080
+        weight: 100
+  - name: product_grpc_upstream
+    algorithm: round-robin
+    targets:
+      - target: e-commerce-product-service-1:58080
+        weight: 100
+      - target: e-commerce-product-service-2:58080
+        weight: 100
+      - target: e-commerce-product-service-3:58080
+        weight: 100
 
+
+services:
+  - name: inventory_grpc_service
+    host: inventory_grpc_upstream
+    protocol: grpc
+    routes:
+      - name: inventory-grpc-route
+        protocols: [grpc, grpcs]
+        paths:
+          - /inventory.InventoryService
+        strip_path: false
+  - name: product_grpc_service
+    host: product_grpc_upstream
+    protocol: grpc
+    routes:
+      - name: product-grpc-route
+        protocols: [grpc, grpcs]
+        paths:
+          - /product.ProductService
+        strip_path: false
 
 plugins:
-  - name: jwt
-    route: authentication-route
-    config:
-      key_claim_name: iss
-      claims_to_verify: 
-        - exp
-      secret_is_base64: false
-      anonymous: anonymous
-
-  - name: jwt
-    config:
-      key_claim_name: iss
-      claims_to_verify: 
-        - exp
-      secret_is_base64: false
-
   - name: rate-limiting
     config:
-      minute: 1
+      second: 10
   - name: prometheus
     config:
       per_consumer: true
-
-consumers:
-- username: anonymous
-- username: user
-  jwt_secrets:
-  - key: key
-    algorithm: HS256
-    secret: secret
-

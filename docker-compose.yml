@@ -6,6 +6,8 @@ services:
       - ./api_gateway/.env
     ports:
       - "8000:8000" # Proxy port
+      - "8001:8001" # Proxy port
+      - "8002:8002" # Proxy port
     networks:
       - ecommerce-net
   kong-internal-gateway:
